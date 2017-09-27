@@ -1,0 +1,105 @@
+/* Google Fonts */
+/*@import url(https://fonts.googleapis.com/css?family=Open+Sans);*/
+
+/* sets background image and global font */
+body {
+  /*background-image: url(http://benague.ca/files/congruent_outline.png);
+  font-family: 'Open Sans', 'sans-serif';*/
+}
+
+/* div surrounding login form */
+#login {
+  background-color: #eee;
+  opacity: .9;
+  height: 250px;
+  width: 400px;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  padding: 0;
+  text-align: center;
+  
+}
+
+/* form header */
+h2 {
+font-size: 32px;
+padding: 10px;
+margin: 0;
+color: #999999;
+/*-background-color: #55acee;*/
+margin-bottom: 15px;
+background: #111;
+background: -moz-linear-gradient(#444, #111); 
+background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));	
+background: -webkit-linear-gradient(#444, #111);	
+background: -o-linear-gradient(#444, #111);
+background: -ms-linear-gradient(#444, #111);
+background: linear-gradient(#444, #111);
+-moz-border-radius: 5px;
+border-radius: 5px;
+-moz-box-shadow: 0 2px 1px #9c9c9c;
+-webkit-box-shadow: 0 2px 1px #9c9c9c;
+box-shadow: 0 2px 1px #9c9c9c;
+}
+
+/* text fields */
+input:not([type="submit"]) {
+  font-size: 20px;
+  width: 300px;
+  height: 50px;
+  border-radius: 6px;
+  border: 1px solid #acacac;
+  margin-bottom: 15px;
+  text-align: center;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+  font-family: 'Open Sans', 'sans-serif';
+}
+
+input:not([type="submit"]):focus {
+  font-size: 20px;
+  color: #444;
+  width: 370px;
+  border: 1px solid #444;
+  outline: none;
+  
+}
+
+/* submit button */
+input[type="submit"] {
+font-size: 32px;
+color: #999999;
+/*background-color: #55acee;*/
+box-shadow: 0 5px 0 0 #3C93D5;
+border: none;
+padding: 10px;
+width: 400px;
+display: inline-block;
+position: relative;
+outline: none;
+border-bottom-left-radius: 10px;
+border-bottom-right-radius: 10px;
+background: #111;
+background: -moz-linear-gradient(#444, #111); 
+background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));	
+background: -webkit-linear-gradient(#444, #111);	
+background: -o-linear-gradient(#444, #111);
+background: -ms-linear-gradient(#444, #111);
+background: linear-gradient(#444, #111);
+-moz-border-radius: 5px;
+border-radius: 5px;
+-moz-box-shadow: 0 2px 1px #9c9c9c;
+-webkit-box-shadow: 0 2px 1px #9c9c9c;
+box-shadow: 0 2px 1px #9c9c9c;
+}
+
+input[type="submit"]:active {
+  color: #999999;
+  box-shadow: 0 1px 0 0 #3C93D5;
+  -webkit-transform: translate(0,5px);
+  -moz-transform: translate(0,5px);
+  transform: translate(0,5px);
+}
