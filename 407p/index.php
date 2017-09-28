@@ -18,9 +18,7 @@ $connect = mysqli_connect($host, $user, $password, $database);
 <body>
 <?php
 // Проверяем, пусты ли переменные логина и id пользователя
-    if (CheckLogin() == FALSE)
-    //if (empty($_SESSION['login']) or empty($_SESSION['id']))
-    {
+    if (CheckLogin() == FALSE){
 ?>
  <!--Если пусты, то выводим форму входа.--> 
   <div id="login">
