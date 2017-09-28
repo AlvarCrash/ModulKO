@@ -2,7 +2,8 @@
 session_start();
 echo '<h1 align=center>Модуль 407-П</h1>';
 require 'menu407p.html'; 
-require_once 'db.php'; // подключаем скрипт
+require_once 'db.php'; // Настройки подключения к БД
+require_once 'functions.php'; // Подключение модуля функций
  
 // подключаемся к базе данных
 $connect = mysqli_connect($host, $user, $password, $database);
@@ -17,7 +18,8 @@ $connect = mysqli_connect($host, $user, $password, $database);
 <body>
 <?php
 // Проверяем, пусты ли переменные логина и id пользователя
-    if (empty($_SESSION['login']) or empty($_SESSION['id']))
+    if (CheckLogin() == FALSE)
+    //if (empty($_SESSION['login']) or empty($_SESSION['id']))
     {
 ?>
  <!--Если пусты, то выводим форму входа.--> 
