@@ -34,6 +34,10 @@ if (empty($login) or empty($password)) //если пользователь не 
        $passsword = $row['PASSWORD'];
        $email = $row['EMAIL'];
        $id = $row['ID'];
+       $type = $row['TYPE'];
+       $name = $row['NAME'];
+       $second_name = $row['SECOND_NAME'];
+       $last_name = $row['LAST_NAME'];
     }
 
     //$myrow = mysqli_stmt_fetch($result);
@@ -46,8 +50,12 @@ if (empty($login) or empty($password)) //если пользователь не 
     //если существует, то сверяем пароли
     if ($passsword==$password) {
     //если пароли совпадают, то запускаем пользователю сессию! Можете его поздравить, он вошел!
-    $_SESSION['login']=$email; 
-    $_SESSION['id']=$id;
+    $_SESSION['login'] = $email; 
+    $_SESSION['id'] = $id;
+    $_SESSION['type'] = $type;
+    $_SESSION['name'] = $name;
+    $_SESSION['second_name'] = $second_name;
+    $_SESSION['last_name'] = $last_name;
     //эти данные очень часто используются, вот их и будет "носить с собой" вошедший пользователь
     header("Location:index.php"); 
     }
