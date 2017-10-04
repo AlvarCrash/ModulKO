@@ -1,6 +1,7 @@
 <?php
 session_start();
 echo '<h1 align=center>Модуль 407-П</h1>';
+$id = $_GET['id'];
 require 'menu407p.php'; 
 require_once 'db.php'; // Настройки подключения к БД
 require_once 'functions.php'; // Подключение модуля функций
@@ -16,6 +17,7 @@ $connect = mysqli_connect($host, $user, $password, $database);
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    
 <?php
 // Проверяем, пусты ли переменные логина и id пользователя
     if (CheckLogin() == FALSE){
@@ -50,7 +52,22 @@ if ($_SESSION['type'] == 0){
 include 'files.php';
 }
 else {
-include 'settings_main.php';    
+    
+switch($id){ 
+   case 'setting_main': 
+     include 'settings_main.php'; 
+     break; 
+   case 'settings_user': 
+     include 'settings_user.php'; 
+     break; 
+   case 'settings_dir': 
+     include 'settings_dir.php'; 
+     break;
+   case 'new_user': 
+     include 'new_user.php';
+     break;   
+   
+  }     
 }
 
     }
