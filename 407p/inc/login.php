@@ -17,7 +17,15 @@ while ($row = mysqli_fetch_assoc($result)){
     // Проверяем авторизацию
     if ($row["PASSWORD"] == $password){
     $id = $row["ID"];
+    $type = $row["TYPE"];
+    $name = $row["NAME"];
+    $second_name = $row["SECOND_NAME"];
+    $last_name = $row["LAST_NAME"];
     $_SESSION['id'] = $id;
+    $_SESSION['type'] = $type;
+    $_SESSION['name'] = $name;
+    $_SESSION['second_name'] = $second_name;
+    $_SESSION['last_name'] = $last_name;
     header("location: ../index.php");
     }
     header("location: ../index.php");        
@@ -42,7 +50,7 @@ if (empty($_SESSION['id'])){
 }
 // Если пользователь авторизован, выводим приветствие
 else{
-    echo "<br><p>Охуеть!</p>";
+    echo "<br><p>Успешная авторизация!</p>";
     
     
 }

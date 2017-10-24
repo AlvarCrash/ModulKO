@@ -4,11 +4,11 @@
     <ul>
       <li><a href='index.php'>Главная</a>
       </li>
-      <li><a href='index.php?id=contact'>Настройки КО</a>
+      <li><a href='index.php?id=main_set'>Настройки КО</a>
       </li>
-      <li><a href='index.php?id=about'>Настройки Пользователей</a>
+      <li><a href='index.php?id=users_set'>Настройки Пользователей</a>
       </li>
-      <li><a href='index.php?id=info'>Настройки Файлового Обмена</a>
+      <li><a href='index.php?id=file_set'>Настройки Файлового Обмена</a>
       </li>
       <li><a href='inc/exit.php'>Выход</a>
       </li>

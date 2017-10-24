@@ -1,7 +1,10 @@
 <?php
 session_start();
-//unset($_SESSION['login']);
 unset($_SESSION['id']);
+unset($_SESSION['type']);
+unset($_SESSION['name']);
+unset($_SESSION['second_name']);
+unset($_SESSION['last_name']);
 //unset($_SESIION['type']);
 session_destroy();
 header("Location: ../index.php");

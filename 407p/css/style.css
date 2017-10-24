@@ -21,6 +21,16 @@ body {
 	margin-right: 2em;
 	margin-top: 0.5em;
 }
+#header .hello {
+	font: 120% Georgia, "Times New Roman", Times, serif;
+	color: #778899;
+	background-color: transparent;
+	float: left;
+	width: 700px;
+	text-align:left;
+	margin-right: 2em;
+	margin-top: 0.5em;
+}
 #header .logo {
 	float: left;
 	width: 187px;

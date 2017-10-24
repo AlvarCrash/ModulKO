@@ -1,6 +1,5 @@
 <?php
 function clearStr($data, $cnn){
-  
   $dara = trim(strip_tags($data));
   return mysqli_real_escape_string($cnn, $data);
 }
