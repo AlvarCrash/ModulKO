@@ -10,7 +10,7 @@ $result = mysqli_query($db,$sql);
 mysqli_close($db);
 
 //Выводим шапку списка пользователей
-echo '<table border=1 rules=all cellpadding=5>'
+echo '<table border=1 rules=all cellpadding=5 class=userlist>'
 .'<tr align=center>'
 .   '<td>'
 .   'ID'

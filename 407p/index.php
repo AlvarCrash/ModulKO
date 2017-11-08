@@ -7,7 +7,7 @@ $id = strtolower(strip_tags(trim($_GET['id'])));
 
 ?>
 <!DOCTYPE html>
-<html>
+
 
 <head>
   <title>
@@ -15,9 +15,16 @@ $id = strtolower(strip_tags(trim($_GET['id'])));
   </title>
   <meta charset="utf-8" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <script type='text/javascript' src='script/jquery.js'></script>
+  
+      
 </head>
+<script>
+	$(function() {
+		alert ('jQuery подключен и отлично работает!');
+	});
+</script>
 
-<body>
 
   <div id="header">
     <!-- Верхняя часть страницы -->
@@ -34,7 +41,7 @@ $id = strtolower(strip_tags(trim($_GET['id'])));
     <!-- Заголовок -->
     <h1><?= $header?></h1>
     <blockquote>
-    123
+    Что-нить напишем потом!
     </blockquote>
     <!-- Заголовок -->
     <!-- Область основного контента -->
@@ -74,6 +81,5 @@ $id = strtolower(strip_tags(trim($_GET['id'])));
    
     <!-- Нижняя часть страницы -->
   </div>
-</body>
 
-</html>
+
