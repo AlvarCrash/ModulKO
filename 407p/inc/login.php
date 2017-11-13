@@ -5,9 +5,9 @@ require_once 'function.php';
 
 // Подключаемся к БД
 $db = mysqli_connect($host, $user, $password, $database);
-//echo $_SESSION['id'];
+
 $email = $_POST["email"];
-//echo $email;
+
 $password = $_POST["password"];
               
 $sql = "SELECT * FROM SPR_USERS WHERE EMAIL='$email'";

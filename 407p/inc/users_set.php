@@ -1,3 +1,4 @@
+  
 <?php
 session_start();
 require_once 'db.php';
@@ -10,7 +11,7 @@ $result = mysqli_query($db,$sql);
 mysqli_close($db);
 
 //Выводим шапку списка пользователей
-echo '<table border=1 rules=all cellpadding=5 class=userlist>'
+echo '<table class=table>'
 .'<tr align=center>'
 .   '<td>'
 .   'ID'
@@ -33,14 +34,12 @@ echo '<table border=1 rules=all cellpadding=5 class=userlist>'
 .   '<td>'
 .   'Тип пользователя'
 .   '</td>'
-.   '<td>'
-.   'Действия с аккаунтом'
-.   '</td>'        
 .'</tr>';
 
 //Выводим список пользователей
 while ($row = mysqli_fetch_assoc($result)){
-    //while ($row["NAME"]){
+    if ($row['ID'] == 1){
+    
         echo        '<tr align=center>'
     .               '<td>'.$row['ID']
     .               '</td>'
@@ -56,18 +55,30 @@ while ($row = mysqli_fetch_assoc($result)){
     .               '</td>'
     .               '<td>'.$row['TYPE']
     .               '</td>'
-    .               '</td>'
-    .               '<td>'
-    .               '</td>'            
     .           '</tr>';
-    //}
     }
+    else {
+       echo        '<tr align=center>'
+    .               '<td>'.$row['ID']
+    .               '</td>'
+    .               '<td><a href="#"class="people-editable" data-name="EMAIL" data-type="text" data-title="E-Mail" data-pk="' . $row['ID'] . '" data-url="inc/ajax.php" >' . $row['EMAIL'] . '</a>'
+    .               '</td>'
+    .               '<td><a href="#" class="people-editable" data-name="NAME" data-type="text" data-title="Имя" data-pk="' . $row['ID'] . '" data-url="inc/ajax.php" >' . $row['NAME'] . '</a>'
+    .               '</td>'
+    .               '<td><a href="#" class="people-editable" data-name="SECOND_NAME" data-type="text" data-title="Отчество" data-pk="' . $row['ID'] . '" data-url="inc/ajax.php" >' . $row['SECOND_NAME'] . '</a>'
+    .               '</td>'
+    .               '<td><a href="#" class="people-editable" data-name="LAST_NAME" data-type="text" data-title="Фамилия" data-pk="' . $row['ID'] . '" data-url="inc/ajax.php" >' . $row['LAST_NAME'] . '</a>'
+    .               '</td>'
+    .               '<td><a href="#" class="people-editable" data-name="JOB" data-type="text" data-title="Должность" data-pk="' . $row['ID'] . '" data-url="inc/ajax.php" >' . $row['JOB'] . '</a>'
+    .               '</td>'
+    .               '<td><a href="#" class="people-editable" data-name="TYPE" data-type="text" data-title="Тип" data-pk="' . $row['ID'] . '" data-url="inc/ajax.php" >' . $row['TYPE'] . '</a>'
+    .               '</td>'    
+    .           '</tr>'; 
+    }
+}
 
 //Закрываем таблицу    
-echo '</table>';    
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+echo '</table>';
+echo $_POST['name'];
+?>
 

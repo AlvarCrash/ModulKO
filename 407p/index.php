@@ -14,16 +14,24 @@ $id = strtolower(strip_tags(trim($_GET['id'])));
     <?=$title?>
   </title>
   <meta charset="utf-8" />
+  
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  
   <link rel="stylesheet" type="text/css" href="css/style.css" />
+  
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-editable.css"/>
+  
   <script type='text/javascript' src='script/jquery.js'></script>
   
-      
+  <script type='text/javascript' src='script/bootstrap.min.js'></script>
+  
+  <script type='text/javascript' src='script/bootstrap-editable.min.js'></script>
+  
+  <script type='text/javascript' src='script/script.js'></script>
+  
+  
 </head>
-<script>
-	$(function() {
-		alert ('jQuery подключен и отлично работает!');
-	});
-</script>
+
 
 
   <div id="header">
