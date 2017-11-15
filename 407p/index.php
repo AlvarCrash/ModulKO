@@ -29,8 +29,11 @@ $id = strtolower(strip_tags(trim($_GET['id'])));
   
   <script type='text/javascript' src='script/script.js'></script>
   
-  
-</head>
+  <script src="script/jquery-ui.js"></script>
+
+  <link rel="stylesheet" href="css/jquery-ui.css">
+
+  </head>
 
 
 
