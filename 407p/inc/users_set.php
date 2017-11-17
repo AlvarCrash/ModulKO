@@ -11,7 +11,7 @@ $result = mysqli_query($db,$sql);
 mysqli_close($db);
 
 //Выводим шапку списка пользователей
-echo '<table class=table>'
+echo '<table class="table" id="users">'
 .'<tr align=center>'
 .   '<td>'
 .   'ID'
@@ -63,7 +63,7 @@ while ($row = mysqli_fetch_assoc($result)){
     .               '</tr>';
     }
     else {
-       echo        '<tr align=center>'
+       echo        '<tr align="center" id="tr'.$row['ID'].'">'
     .               '<td>'.$row['ID']
     .               '</td>'
     .               '<td><a href="#"class="user-editable" data-name="EMAIL" data-type="text" data-title="E-Mail" data-pk="' . $row['ID'] . '" data-url="inc/ajax.php" >' . $row['EMAIL'] . '</a>'
@@ -78,7 +78,7 @@ while ($row = mysqli_fetch_assoc($result)){
     .               '</td>'
     .               '<td><a href="#" class="user-editable" data-name="TYPE" data-type="text" data-title="Тип" data-pk="' . $row['ID'] . '" data-url="inc/ajax.php" >' . $row['TYPE'] . '</a>'
     .               '</td>'
-    .               '<td><button class="ui-button ui-widget ui-corner-all ui-button-icon-only deleteuser"><span class="ui-icon ui-icon-trash"></span></button>'           
+    .               '<td><button class="ui-button ui-widget ui-corner-all ui-button-icon-only deleteuser" id="'.$row['ID'].'"><span class="ui-icon ui-icon-trash"></span></button>'           
     .               '</td>'
     .           '</tr>'; 
     }
@@ -89,57 +89,76 @@ echo '</table>';
 
 ?>
 <button class="ui-button ui-widget ui-corner-all" id="newuserbutton"><span class="ui-icon ui-icon-gear"></span>Новый пользователь</button>
-
+<div id="dialog-message-new" title="Пользователь добавлен">
+  <p>
+    <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+    Пользователь успешно добавлен!
+  </p>
+</div>
+<div id="dialog-message-delete" title="Пользователь удален">
+  <p>
+    <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+    Пользователь успешно удален!
+  </p>
+</div>
 <br><br>
 <script>
     
 </script>
 <div id="newuser">
-   <table  class="table">
-    <tr align=center>
-       <td>
-       ID
-       </td>
-       <td></td>
-    </tr>
-    <tr align=center>
+    <form>
+    <table  class="table">
+    <tr align=left>
        <td>
        Логин
        </td>
-       <td><input id="EMAIL"></td>
+       <td><input type="email" class="form-control" id="inputemail" placeholder="Введите email"></td>
     </tr>
-    <tr align=center>   
+    <tr align=left>   
+       <td>
+       Пароль
+       </td>
+       <td><input type="email" class="form-control" id="inputpass1" placeholder="Введите пароль"></td>
+    </tr>
+    <tr align=left>
+       <td>
+       Подтверждение пароля
+       </td>
+       <td><input type="email" class="form-control" id="inputpass2" placeholder="Введите подтвердите пароль"></td>
+    </tr>
+    <tr align=left>   
        <td>
        Имя
        </td>
-       <td><input id="NAME"></td>
+       <td><input type="email" class="form-control" id="inputname" placeholder="Введите имя"></td>
     </tr>
-    <tr align=center>
+    <tr align=left>
        <td>
        Отчество
        </td>
-       <td></td>
+       <td><input type="email" class="form-control" id="inputsecondname" placeholder="Введите отчество"></td>
     </tr>
-    <tr align=center>
+    <tr align=left>
        <td>
        Фамилия
        </td>
-       <td></td>
+       <td><input type="email" class="form-control" id="inputlastname" placeholder="Введите фамилию"></td>
     </tr>
-    <tr align=center>
+    <tr align=left>
        <td>
        Должность
        </td>
-       <td></td>
+       <td><input type="email" class="form-control" id="inputjob" placeholder="Введите должность"></td>
     </tr>
-    <tr align=center>
+    <tr align=left>
        <td>
        Тип пользователя
        </td>
-       <td></td>
+       <td><input type="email" class="form-control" id="inputtype" placeholder="Введите тип пользователя"></td>
     </tr>
     
    </table>
+    </form>
    <button class="ui-button ui-widget ui-corner-all" id="savebutton"><span class="ui-icon ui-icon-disk"></span>Сохранить</button>
    <button class="ui-button ui-widget ui-corner-all" id="resetbutton"><span class="ui-icon ui-icon-trash"></span>Сброс</button> 
 </div>
