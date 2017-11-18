@@ -19,5 +19,4 @@ if (isset($_REQUEST['id_delete'])) {
 
 //Закрываем соединение с БД
 mysqli_close($db);
-echo ("Ok");
-
+//echo $id;

@@ -18,21 +18,22 @@ $(document).ready(function() {
     //Обработка кнопки удаления
     $('.deleteuser').on('click', function(){
        //alert ('jQuery подключен и отлично работает!');
+        var tr = "tr"+$(this).attr('id');
         $.ajax({
             url: "inc/delete_user.php",
-            dataType:"json",
+            //dataType:"json",
             data: "id_delete="+$(this).attr('id'),
-            success: function(data){
-                $( "#dialog-message-delete" ).dialog({
-                modal: true,
-                buttons: {
-                Ok: function() {
-                  $( this ).dialog( "close" );
-                }
-                }
+            success: function(){
+                //alert ('jQuery подключен и отлично работает!');
+                $('#'+tr).hide();
+                $('#dialog-message-delete').dialog({
+                    modal: true,
+                    buttons: {
+                    Ok: function() {
+                      $( this ).dialog('close');
+                    }
+                  }
                 });
-                //$(this).hide();
-                $.pjax.reload($('#users'), { type: "POST", timeout: 6000});
             }
         });
     });
@@ -40,12 +41,12 @@ $(document).ready(function() {
     
     //Обработка кнопки Сохранить
     $('#savebutton').on('click', function(){
-       $('div#newuser').hide("slide");
-       $( "#dialog-message" ).dialog({
+       $('div#newuser').hide('slide');
+       $('#dialog-message').dialog({
         modal: true,
         buttons: {
         Ok: function() {
-          $( this ).dialog( "close" );
+          $( this ).dialog('close');
         }
       }
     });
