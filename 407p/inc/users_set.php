@@ -36,6 +36,9 @@ echo '<table class="table" id="users">'
 .   '</td>'
 .   '<td>'
 .   'Удаление пользователя'
+.   '</td>'
+.   '<td>'
+.   'Смена пароля'
 .   '</td>'        
 .'</tr>';
 
@@ -60,6 +63,8 @@ while ($row = mysqli_fetch_assoc($result)){
     .               '</td>'
     .               '<td>'
     .               '</td>'
+    .               '<td><button class="ui-button ui-widget ui-corner-all ui-button-icon-only changepass" id="'.$row['ID'].'"><span class="ui-icon ui-icon-key"></span></button>'
+    .               '</td>'
     .               '</tr>';
     }
     else {
@@ -80,6 +85,8 @@ while ($row = mysqli_fetch_assoc($result)){
     .               '</td>'
     .               '<td><button class="ui-button ui-widget ui-corner-all ui-button-icon-only deleteuser" id="'.$row['ID'].'"><span class="ui-icon ui-icon-trash"></span></button>'           
     .               '</td>'
+    .               '<td><button class="ui-button ui-widget ui-corner-all ui-button-icon-only changepass" id="'.$row['ID'].'"><span class="ui-icon ui-icon-key"></span></button>'
+    .               '</td>'
     .           '</tr>'; 
     }
 }
@@ -89,25 +96,26 @@ echo '</table>';
 
 ?>
 <button class="ui-button ui-widget ui-corner-all" id="newuserbutton"><span class="ui-icon ui-icon-gear"></span>Новый пользователь</button>
-<div id="dialog-message-new" title="Пользователь добавлен">
-  <p>
+
+<div id="dialog-message-info" title="Сообщение">
+  <p id="info">
     <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-    Пользователь успешно добавлен!
   </p>
 </div>
-<div id="dialog-message-delete" title="Пользователь удален">
-  <p>
+<div id="dialog-confirm-delete" title="Удаление пользователя">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Выбранный пользователь будет удален! Вы уверены?</p>
+</div>
+<div id="dialog-message-error" title="Ошибка!">
+  <p id="error">
     <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-    Пользователь успешно удален!
+    
   </p>
 </div>
 <br><br>
-<script>
-    
-</script>
+
 <div id="newuser">
     <form>
-    <table  class="table">
+    <table  class="table" id="tablenewuser">
     <tr align=left>
        <td>
        Логин
@@ -160,5 +168,21 @@ echo '</table>';
    </table>
     </form>
    <button class="ui-button ui-widget ui-corner-all" id="savebutton"><span class="ui-icon ui-icon-disk"></span>Сохранить</button>
-   <button class="ui-button ui-widget ui-corner-all" id="resetbutton"><span class="ui-icon ui-icon-trash"></span>Сброс</button> 
+   <button class="ui-button ui-widget ui-corner-all" id="resetbutton"><span class="ui-icon ui-icon-trash"></span>Сброс</button>
+   <button class="ui-button ui-widget ui-corner-all" id="closebutton"><span class="ui-icon ui-icon-circle-close"></span>Закрыть</button>
+</div>
+
+<div id="dialog-form" title="Смена пароля">
+  <p class="validateTips">Пароли должны совпадать!</p>
+  <p class="validateTips">Будте внимательны!</p>
+  <form>
+    <fieldset>
+        <label for="pass1">Пароль:</label><br>
+      <input type="text" name="name" id="pass1" class="text ui-widget-content ui-corner-all"><br>
+      <label for="pass2">Подтвердите пароль:</label><br>
+      <input type="text" name="email" id="pass2" class="text ui-widget-content ui-corner-all">
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
 </div>

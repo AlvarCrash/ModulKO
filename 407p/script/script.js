@@ -1,8 +1,10 @@
 $(document).ready(function() {
-    //Скрываем блок нового пользователя
+    //Скрываем информационные блоки
     $('#newuser').hide();
-    $('#dialog-message-new').hide();
-    $('#dialog-message-delete').hide();
+    $('#dialog-message-info').hide();
+    $('#dialog-confirm-delete').hide();
+    $('#dialog-message-error').hide();
+    $('#dialog-form').hide();
     
     //Добавляем инициализацию x-editable
     $.fn.editable.defaults.mode = 'inline';
@@ -17,39 +19,111 @@ $(document).ready(function() {
     
     //Обработка кнопки удаления
     $('.deleteuser').on('click', function(){
-       //alert ('jQuery подключен и отлично работает!');
         var tr = "tr"+$(this).attr('id');
-        $.ajax({
-            url: "inc/delete_user.php",
-            //dataType:"json",
-            data: "id_delete="+$(this).attr('id'),
-            success: function(){
-                //alert ('jQuery подключен и отлично работает!');
-                $('#'+tr).hide();
-                $('#dialog-message-delete').dialog({
-                    modal: true,
-                    buttons: {
-                    Ok: function() {
-                      $( this ).dialog('close');
-                    }
-                  }
-                });
+        var id = $(this).attr('id');
+        $('#dialog-confirm-delete').dialog({
+            resizable: false,
+            height: "auto",
+            width: 400,
+            modal: true,
+            buttons: {
+              "Удалить пользователя?": function() {
+                  
+                  $(this).dialog('close');
+                  $.ajax({
+                    url: "inc/ajax.php",
+                    type: "POST",
+                    data: "id_delete="+id,
+                    success: function(){
+                    $('#'+tr).hide();
+                    $('p#info').text('Пользователь удален!');
+                    $('#dialog-message-info').dialog({
+                        modal: true,
+                        buttons: {
+                        Ok: function() {
+                            $( this ).dialog('close');
+                                }
+                        }
+                    });
             }
         });
+              },
+              Cancel: function() {
+                $( this ).dialog('close');
+              }
+            }
+          });                
     });
     
     
     //Обработка кнопки Сохранить
     $('#savebutton').on('click', function(){
-       $('div#newuser').hide('slide');
-       $('#dialog-message').dialog({
-        modal: true,
-        buttons: {
-        Ok: function() {
-          $( this ).dialog('close');
-        }
-      }
+       
+       if (($('#inputpass1').val()) === ($('#inputpass2').val())) {
+        $.ajax({
+           url: "inc/ajax.php",
+           type: "POST",
+           data: "email="+$('#inputemail').val()+"&password="+$('#inputpass1').val()+"&name="+$('#inputname').val()+"&secondname="+$('#inputsecondname').val()+"&lastname="+$('#inputlastname').val()+"&job="+$('#inputjob').val()+"&type="+$('#inputtype').val(),
+           success: function(){
+               $('p#info').text('Пользователь добавлен!');
+               $('#dialog-message-info').dialog({
+                    modal: true,
+                    buttons: {
+                    Ok: function() {
+                        $(this).dialog('close');
+                        location.reload();
+                        }
+                    }
+                    });
+           }
+        });
+        $('div#newuser').hide('slide');
+       }
+       else {
+            $('p#error').text('Пароли не совпадают!');
+            $('#dialog-message-error').dialog({
+                        modal: true,
+                        buttons: {
+                        Ok: function() {
+                        $( this ).dialog('close');
+                        }
+                    }
+                }); 
+       }
     });
+    
+    //Обработка кнопки смены пароля
+    $('.changepass').on('click', function(){
+        //alert("gbpltw");
+        var dialog, form;
+        dialog = $( "#dialog-form" ).dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Сменить пароль": function(){
+                    dialog.dialog( "close" );
+                },
+                "Отмена": function() {
+                    dialog.dialog( "close" );
+                }
+            },
+        close: function() {
+            form[ 0 ].reset();
+            //allFields.removeClass( "ui-state-error" );
+        }
+        });
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            //addUser();
+        });
+         dialog.dialog( "open" );
+     });
+    
+    //Обработка кнопки Закрыть
+    $('#closebutton').on('click', function(){
+        $('#newuser').hide('slide');
     });
     
     //Обработка кнопки Сброс

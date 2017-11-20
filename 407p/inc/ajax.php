@@ -10,7 +10,6 @@ if (!$db) {
         exit;
     }
 
-
 //Проверка запроса на изменение записи
 if (isset($_POST['name'])) {
     $column = $_POST['name'];
@@ -20,6 +19,26 @@ if (isset($_POST['name'])) {
     mysqli_query($db, $sql);
 }
 
+//Проверка запроса на удаление пользователя
+if (isset($_POST['id_delete'])) {
+    $id = $_POST['id_delete'];
+    $sql = "DELETE FROM SPR_USERS WHERE ID = '$id'";
+    mysqli_query($db, $sql);
+}
+
+//Проверка запроса на добавление пользователя
+if (isset($_POST['email'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $name = $_POST['name'];
+    $secondname = $_POST['secondname'];
+    $lastname = $_POST['lastname'];
+    $job = $_POST['job'];
+    $type = $_POST['type'];
+    
+    $sql = "INSERT INTO SPR_USERS (EMAIL, PASSWORD, NAME, SECOND_NAME, LAST_NAME, JOB, TYPE) values('$email', '$password', '$name', '$secondname', '$lastname', '$job', '$type')";
+    mysqli_query($db, $sql);
+}
 //Закрываем соединение с БД
 mysqli_close($db);
 
