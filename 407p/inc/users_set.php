@@ -1,4 +1,3 @@
-  
 <?php
 session_start();
 require_once 'db.php';
@@ -9,7 +8,9 @@ $db = mysqli_connect($host, $user, $password, $database);
 $sql = "SELECT * FROM SPR_USERS";
 $result = mysqli_query($db,$sql);
 mysqli_close($db);
-
+?>
+<h1>Настройка пользователей</h1>
+<?php
 //Выводим шапку списка пользователей
 echo '<table class="table" id="users">'
 .'<tr align=center>'

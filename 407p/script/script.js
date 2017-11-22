@@ -10,8 +10,10 @@ $(document).ready(function() {
     $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
         $('.user-editable').editable();
-        $('user-delete').editable();
+        //$('user-delete').editable();
+        $('.ko-editable').editable();
     });
+    
     //Показываем блок создания нового пользователя
     $('#newuserbutton').on('click', function(){
         $('div#newuser').show("slide");
@@ -28,7 +30,6 @@ $(document).ready(function() {
             modal: true,
             buttons: {
               "Удалить пользователя?": function() {
-                  
                   $(this).dialog('close');
                   $.ajax({
                     url: "inc/ajax.php",
@@ -94,31 +95,60 @@ $(document).ready(function() {
     
     //Обработка кнопки смены пароля
     $('.changepass').on('click', function(){
-        //alert("gbpltw");
-        var dialog, form;
-        dialog = $( "#dialog-form" ).dialog({
+        var id = $(this).attr('id');
+        var dialogform, form;
+        dialogform = $( "#dialog-form" ).dialog({
             autoOpen: false,
             height: 300,
             width: 350,
             modal: true,
             buttons: {
                 "Сменить пароль": function(){
-                    dialog.dialog( "close" );
+                    if (($('input#pass1').val()) === ($('input#pass2').val())) {
+                        $.ajax({
+                            url: "inc/ajax.php",
+                            type: "POST",
+                            data: "id_change_pass="+id+"&changepass="+$('input#pass1').val(),
+                            success: function(){
+                                $('p#info').text('Пароль изменен!');
+                                $('#dialog-message-info').dialog({
+                                    modal: true,
+                                    buttons: {
+                                        Ok: function() {
+                                            $(this).dialog('close');
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                        dialogform.dialog( "close" );
+                    }
+                    else {
+                        $('p#info').text('Пароли не совпадают!');
+                        $('#dialog-message-info').dialog({
+                            modal: true,
+                            buttons: {
+                                Ok: function() {
+                                    $(this).dialog('close');
+                                }
+                            }
+                        });
+                    }
                 },
                 "Отмена": function() {
-                    dialog.dialog( "close" );
+                    dialogform.dialog( "close" );
                 }
             },
         close: function() {
             form[ 0 ].reset();
-            //allFields.removeClass( "ui-state-error" );
+            
         }
         });
-        form = dialog.find( "form" ).on( "submit", function( event ) {
+        form = dialogform.find( "form" ).on( "submit", function( event ) {
             event.preventDefault();
-            //addUser();
+           
         });
-         dialog.dialog( "open" );
+         dialogform.dialog( "open" );
      });
     
     //Обработка кнопки Закрыть

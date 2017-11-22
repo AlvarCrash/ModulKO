@@ -1,6 +1,5 @@
 <?php
 require_once 'db.php';
-//require_once 'inc/function.php';
 
 // Подключаемся к БД
 $db = mysqli_connect($host, $user, $password, $database);
@@ -15,7 +14,11 @@ if (isset($_POST['name'])) {
     $column = $_POST['name'];
     $newValue = $_POST['value'];    
     $id = $_POST['pk'];
+    //изменение пользователей
     $sql = "UPDATE SPR_USERS SET $column = '$newValue' where ID = '$id'";
+    mysqli_query($db, $sql);
+    //Изменение настроек КО
+    $sql = "UPDATE SPR_BANK SET $column = '$newValue' where ID = '$id'";
     mysqli_query($db, $sql);
 }
 
@@ -39,6 +42,17 @@ if (isset($_POST['email'])) {
     $sql = "INSERT INTO SPR_USERS (EMAIL, PASSWORD, NAME, SECOND_NAME, LAST_NAME, JOB, TYPE) values('$email', '$password', '$name', '$secondname', '$lastname', '$job', '$type')";
     mysqli_query($db, $sql);
 }
+
+//Проверка запроса на смену пароля
+if (isset($_POST['changepass'])) {
+    $id = $_POST['id_change_pass'];
+    $new_pass = $_POST['changepass'];
+    $sql = "UPDATE SPR_USERS SET PASSWORD = '$new_pass' where ID = '$id'";
+    mysqli_query($db, $sql);
+}
+
+
+
 //Закрываем соединение с БД
 mysqli_close($db);
 

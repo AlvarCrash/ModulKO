@@ -25,7 +25,7 @@ $id = strtolower(strip_tags(trim($_GET['id'])));
   
   <script type='text/javascript' src='script/bootstrap.min.js'></script>
   
-  <script type='text/javascript' src='script/bootstrap-editable.min.js'></script>
+  <script type='text/javascript' src='script/bootstrap-editable.js'></script>
   
   <script type='text/javascript' src='script/script.js'></script>
   
