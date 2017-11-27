@@ -1,7 +1,16 @@
 <?php
-function clearStr($data, $cnn){
-  $dara = trim(strip_tags($data));
-  return mysqli_real_escape_string($cnn, $data);
+
+//function clearStr($data, $cnn){
+  //$dara = trim(strip_tags($data));
+  //return mysqli_real_escape_string($cnn, $data);
+//}
+
+function loadFiles ($database) {
+    
+    
+    
+    
+    
 }
 /* 
  * To change this license header, choose License Headers in Project Properties.

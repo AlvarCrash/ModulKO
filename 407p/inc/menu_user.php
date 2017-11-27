@@ -4,7 +4,7 @@
     <ul>
       <li><a href='index.php'>Главная</a>
       </li>
-      <li><a href='index.php?id=contact'>Файловый обмен</a>
+      <li><a href='index.php?id=file_change'>Файловый обмен</a>
       </li>
       <li><a href='inc/exit.php'>Выход</a>
       </li>

@@ -5,12 +5,11 @@ $(document).ready(function() {
     $('#dialog-confirm-delete').hide();
     $('#dialog-message-error').hide();
     $('#dialog-form').hide();
-    
+        
     //Добавляем инициализацию x-editable
     $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
         $('.user-editable').editable();
-        //$('user-delete').editable();
         $('.ko-editable').editable();
     });
     
@@ -167,6 +166,43 @@ $(document).ready(function() {
        $('input#inputjob').val('');
        $('input#inputtype').val('');
     });
+    
+    //Обработка кнопки войти
+    $('#loginbutton').on('click', function (){
+        $.ajax({
+            url: "inc/login.php",
+            type: "POST",
+            data: "email="+$('input#emailauth').val()+"&password="+$('input#passauth').val(),
+            success: function(msg){
+                //alert(msg);
+                //if ((msg) === "ОК") {
+                    $('#auth').hide();
+                    location.reload();
+                //}
+                
+            }
+        });
+    })
+    
+    //Обработка сохранения настроек путей
+    $('#savepathbutton').on('click', function() {
+        $.ajax({
+            url: "inc/ajax.php",
+            type: "POST",
+            data: "id=1&inafrfm="+$('#inafrfm').val()+"&inzfrfm="+$('#inzfrfm').val()+"&inrfrfm="+$('#inrfrfm').val()+"&outfiles="+$('#outfiles').val(),
+            success: function(){
+                $('p#info').text('Изменения сохренены!');
+                        $('#dialog-message-info').dialog({
+                            modal: true,
+                            buttons: {
+                                Ok: function() {
+                                    $(this).dialog('close');
+                                }
+                            }
+                        });
+            }
+        })
+    })
 });
 /* 
  * To change this license header, choose License Headers in Project Properties.

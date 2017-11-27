@@ -29,6 +29,8 @@ $id = strtolower(strip_tags(trim($_GET['id'])));
   
   <script type='text/javascript' src='script/script.js'></script>
   
+  <script type='text/javascript' src='script/script_file_change.js'></script>
+  
   <script src="script/jquery-ui.js"></script>
 
   <link rel="stylesheet" href="css/jquery-ui.css">
@@ -56,19 +58,36 @@ $id = strtolower(strip_tags(trim($_GET['id'])));
     </blockquote>
     <!-- Заголовок -->
     <!-- Область основного контента -->
-    <?php 
+    <div id="auth">
+        <p>Авторизация:</p>
+        
+            <label for="name">Логин:</label><br>
+            <input type="text" name="email" id="emailauth" required></input><br><br>
+            <label for="password">Пароль:</label><br>
+            <input type="password" name="password" id="passauth" required></input><br><br>
+            <button class="ui-button ui-widget ui-corner-all" id="loginbutton"><span class="ui-icon ui-icon-key"></span>Войти</button>
+        
+    </div>
+     <?php
+      
       include 'inc/routing.php';
-      switch($id){ 
-        case 'users_set': 
-            include 'inc/users_set.php'; 
-            break; 
-        case 'main_set': 
-            include 'inc/main_set.php'; 
-            break;
-        case 'file_set': 
-            include 'inc/file_set.php'; 
-            break;
-      } 
+      if (isset($_SESSION['type'])){
+        echo "<script>$('#auth').hide();</script>";
+        switch($id){ 
+          case 'users_set': 
+              include 'inc/users_set.php'; 
+              break; 
+          case 'main_set': 
+              include 'inc/main_set.php'; 
+              break;
+          case 'file_set': 
+              include 'inc/file_set.php'; 
+              break;
+          case 'file_change':
+              include 'inc/file_change.php';
+              break;
+        }
+      }
     ?>
     <!-- Область основного контента -->
   </div>
