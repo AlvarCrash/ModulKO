@@ -23,15 +23,16 @@ if (!$db) {
   <div id="tabs-1">
     <!-- Управление -->
     <button class="ui-button ui-widget ui-corner-all" id="loadbutton"><span class="ui-icon ui-icon-folder-open"></span>Загрузить файлы</button>
-    <button class="ui-button ui-widget ui-corner-all" id="checkbutton"><span class="ui-icon ui-icon-gear"></span>Обработать файлы</button>
-    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" id="renewbutton"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span>Обновить</button>
+    <button class="ui-button ui-widget ui-corner-all" id="checkbuttona"><span class="ui-icon ui-icon-gear"></span>Обработать файлы</button>
+    <button class="ui-button ui-widget ui-corner-all" id="deletebuttona"><span class="ui-icon ui-icon-trash"></span>Удалить файлы</button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" id="renewbuttona"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span>Обновить</button>
     <!-- Основной блок -->
     <br><br>
     <?PHP
     //Выбираем архивные файлы ЭС РФМ
     $sql = "SELECT * FROM FILES_IN_ARH ORDER BY DATE DESC";
     $result = mysqli_query($db,$sql);
-    mysqli_close($db);
+    //mysqli_close($db);
     //Открываем таблицу
     ?>
     <table class="table" id="arhfiles">
@@ -56,7 +57,7 @@ if (!$db) {
                 break;
         }
         echo '<tr>'
-            .   '<td><input type="checkbox" name="checkbox" id="checkbox'.$row['ID'].'"></td>'
+            .   '<td><input type="checkbox" name="checkboxa" id="'.$row['ID'].'"></td>'
             .   '<td>'.$row['ID'].'</td>'
             .   '<td style = "color: '.$color.'">'.$row['NAME'].'</td>'
             .   '<td>'.$row['STATUS'].'</td>'
@@ -68,14 +69,100 @@ if (!$db) {
     ?>
     </table>
        
-        
   </div>
   <div id="tabs-2">
-    <p>2</p>
+    <button class="ui-button ui-widget ui-corner-all" id="checkbuttonz"><span class="ui-icon ui-icon-gear"></span>Расшифровать файлы</button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" id="renewbuttonz"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span>Обновить</button>
+    <br><br>
+    <?PHP
+    //Выбираем архивные файлы ЭС РФМ
+    $sql = "SELECT * FROM FILES_IN_Z ORDER BY DATE DESC";
+    $result = mysqli_query($db,$sql);
+    //mysqli_close($db);
+    //Открываем таблицу
+    ?>  
+    <table class="table" id="zfiles">
+        <tr>
+            <td></td>
+            <td>ID</td>
+            <td>ID Архивного файла</td>
+            <td>Файл</td>
+            <td>Статус</td>
+            <td>Дата принятия</td>
+        </tr>
+    <?PHP
+    while ($row = mysqli_fetch_assoc($result)){
+        switch ($row['STATUS']){
+            case 'Новый':
+                $color = 'blue';
+                break;
+            case 'Расшифрован':
+                $color = 'green';
+                break;
+            case 'Ошибка':
+                $color = 'red';
+                break;
+        }
+        echo '<tr>'
+            .   '<td><input type="checkbox" name="checkboxz" id="'.$row['ID'].'"></td>'
+            .   '<td>'.$row['ID'].'</td>'
+            .   '<td align = center>'.$row['ID_A'].'</td>'    
+            .   '<td style = "color: '.$color.'">'.$row['NAME'].'</td>'
+            .   '<td>'.$row['STATUS'].'</td>'
+            .   '<td>'.$row['DATE'].'</td>'    
+            .   '</tr>';    
+    }
+    
+    //Закрываем таблицу
+    ?>
+    </table>  
   </div>
   <div id="tabs-3">
-    <p>3</p>
-    
+    <button class="ui-button ui-widget ui-corner-all" id="checkbuttonr"><span class="ui-icon ui-icon-gear"></span>Обработать файлы</button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" id="renewbuttonr"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span>Обновить</button>
+    <br><br>
+    <?PHP
+    //Выбираем архивные файлы ЭС РФМ
+    $sql = "SELECT * FROM FILES_IN_R ORDER BY DATE DESC";
+    $result = mysqli_query($db,$sql);
+    //mysqli_close($db);
+    //Открываем таблицу
+    ?>  
+    <table class="table" id="rfiles">
+        <tr>
+            <td></td>
+            <td>ID</td>
+            <td>ID Зашифрованного файла</td>
+            <td>Файл</td>
+            <td>Статус</td>
+            <td>Дата принятия</td>
+        </tr>
+    <?PHP
+    while ($row = mysqli_fetch_assoc($result)){
+        switch ($row['STATUS']){
+            case 'Новый':
+                $color = 'blue';
+                break;
+            case 'Обработан':
+                $color = 'green';
+                break;
+            case 'Ошибка':
+                $color = 'red';
+                break;
+        }
+        echo '<tr>'
+            .   '<td><input type="checkbox" name="checkboxr" id="'.$row['ID'].'"></td>'
+            .   '<td>'.$row['ID'].'</td>'
+            .   '<td align = center>'.$row['ID_Z'].'</td>'    
+            .   '<td style = "color: '.$color.'">'.$row['NAME'].'</td>'
+            .   '<td>'.$row['STATUS'].'</td>'
+            .   '<td>'.$row['DATE'].'</td>'    
+            .   '</tr>';    
+    }
+    mysqli_close($db);
+    //Закрываем таблицу
+    ?>
+    </table>
   </div>
 </div>
 <div id="dialog-files-message-info" title="Сообщение">

@@ -39,6 +39,10 @@ while ($row = mysqli_fetch_assoc($result)){
     .               '<td>Директория для исходящих файлов</td>'
     .               '<td><input class="form-control" type="text" value="'.$row['OUT_PATH'].'" id="outfiles"></input></td>'
     .               '</tr>'
+    .          '<tr align=center>'
+    .               '<td>Директория для архиватора ARJ</td>'
+    .               '<td><input class="form-control" type="text" value="'.$row['ARJ_PATH'].'" id="arj"></input></td>'
+    .               '</tr>'       
     ; 
 }
 

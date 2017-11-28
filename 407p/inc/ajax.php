@@ -58,8 +58,20 @@ if (isset($_POST['inafrfm']) or isset($_POST['inzfrfm']) or isset($_POST['inrfrf
     $inzfrfm = addslashes($_POST['inzfrfm']);
     $inrfrfm = addslashes($_POST['inrfrfm']);
     $outfiles = addslashes($_POST['outfiles']);
+    $arjpath = addslashes($_POST['arj']);
     $id=$_POST['id'];
-    $sql = "UPDATE SPR_FILES SET IN_AFRFM = '$inafrfm', IN_ZFRFM = '$inzfrfm', IN_RFRFM = '$inrfrfm', OUT_PATH = '$outfiles' where ID = '$id'";
+    $sql = "UPDATE SPR_FILES SET IN_AFRFM = '$inafrfm', IN_ZFRFM = '$inzfrfm', IN_RFRFM = '$inrfrfm', OUT_PATH = '$outfiles', ARJ_PATH = '$arjpath' where ID = '$id'";
+    
+    mysqli_query($db, $sql);
+}
+
+//Проверка на изменение путей к ключам
+if (isset($_POST['keysign']) or isset($_POST['keycrypt']) or isset($_POST['keyuncrypt'])) {
+    $keysign = addslashes($_POST['keysign']);
+    $keycrypt = addslashes($_POST['keycrypt']);
+    $keyuncrypt = addslashes($_POST['keyuncrypt']);
+    $id=$_POST['id'];
+    $sql = "UPDATE SPR_KEYS SET KEY_SIGN = '$keysign', KEY_CRYPT = '$keycrypt', KEY_UNCRYPT = '$keyuncrypt' where ID = '$id'";
     
     mysqli_query($db, $sql);
 }

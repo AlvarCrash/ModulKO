@@ -189,7 +189,7 @@ $(document).ready(function() {
         $.ajax({
             url: "inc/ajax.php",
             type: "POST",
-            data: "id=1&inafrfm="+$('#inafrfm').val()+"&inzfrfm="+$('#inzfrfm').val()+"&inrfrfm="+$('#inrfrfm').val()+"&outfiles="+$('#outfiles').val(),
+            data: "id=1&inafrfm="+$('#inafrfm').val()+"&inzfrfm="+$('#inzfrfm').val()+"&inrfrfm="+$('#inrfrfm').val()+"&outfiles="+$('#outfiles').val()+"&arj="+$('#arj').val(),
             success: function(){
                 $('p#info').text('Изменения сохренены!');
                         $('#dialog-message-info').dialog({
@@ -200,6 +200,26 @@ $(document).ready(function() {
                                 }
                             }
                         });
+            }
+        })
+    })
+    
+    //Обработка сохранения настроек путей криптографии
+    $('#savecryptbutton').on('click', function() {
+        $.ajax({
+            url: "inc/ajax.php",
+            type: "POST",
+            data: "id=1&keysign="+$('#keysign').val()+"&keycrypt="+$('#keycrypt').val()+"&keyuncrypt="+$('#keyuncrypt').val(),
+            success: function(){
+                $('p#info').text('Изменения сохренены!');
+                $('#dialog-message-info').dialog({
+                    modal: true,
+                    buttons: {
+                        Ok: function() {
+                            $(this).dialog('close');
+                        }
+                    }
+                });
             }
         })
     })

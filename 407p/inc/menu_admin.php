@@ -10,6 +10,8 @@
       </li>
       <li><a href='index.php?id=file_set'>Настройки Файлового Обмена</a>
       </li>
+      <li><a href='index.php?id=keys_set'>Настройки Криптографии</a>
+      </li>
       <li><a href='inc/exit.php'>Выход</a>
       </li>
     </ul>

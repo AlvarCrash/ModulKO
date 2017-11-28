@@ -1,0 +1,1 @@
+subst a: D:\PHP\407p\KEY

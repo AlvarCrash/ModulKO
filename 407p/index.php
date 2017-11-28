@@ -1,7 +1,9 @@
 <?php
+
 require_once 'inc/db.php';
 require_once 'inc/function.php';
 ob_start();
+
 session_start();
 $id = strtolower(strip_tags(trim($_GET['id'])));
 
@@ -85,6 +87,9 @@ $id = strtolower(strip_tags(trim($_GET['id'])));
               break;
           case 'file_change':
               include 'inc/file_change.php';
+              break;
+          case 'keys_set':
+              include 'inc/keys_set.php';
               break;
         }
       }
