@@ -66,12 +66,14 @@ if (isset($_POST['inafrfm']) or isset($_POST['inzfrfm']) or isset($_POST['inrfrf
 }
 
 //Проверка на изменение путей к ключам
-if (isset($_POST['keysign']) or isset($_POST['keycrypt']) or isset($_POST['keyuncrypt'])) {
+if (isset($_POST['keysign']) or isset($_POST['keycrypt']) or isset($_POST['keyuncrypt']) or isset($_POST['scsign']) or isset($_POST['bat'])) {
     $keysign = addslashes($_POST['keysign']);
     $keycrypt = addslashes($_POST['keycrypt']);
     $keyuncrypt = addslashes($_POST['keyuncrypt']);
+    $scsign = addslashes($_POST['scsign']);
+    $bat = addslashes($_POST['bat']);
     $id=$_POST['id'];
-    $sql = "UPDATE SPR_KEYS SET KEY_SIGN = '$keysign', KEY_CRYPT = '$keycrypt', KEY_UNCRYPT = '$keyuncrypt' where ID = '$id'";
+    $sql = "UPDATE SPR_KEYS SET KEY_SIGN = '$keysign', KEY_CRYPT = '$keycrypt', KEY_UNCRYPT = '$keyuncrypt', SCSIGN = '$scsign', BAT = '$bat' where ID = '$id'";
     
     mysqli_query($db, $sql);
 }

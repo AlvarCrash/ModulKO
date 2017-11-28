@@ -34,7 +34,15 @@ while ($row = mysqli_fetch_assoc($result)){
     .          '<tr align=center>'
     .               '<td>Директория для ключей РАСШИФРОВАНИЯ И СНЯТИЯ ПОДПИСИ</td>'
     .               '<td><input class="form-control" type="text" value="'.$row['KEY_UNCRYPT'].'" id="keyuncrypt"></input></td>'
-    .               '</tr>'       
+    .               '</tr>'
+    .          '<tr align=center>'
+    .               '<td>Директория для программы SCSIGNEX</td>'
+    .               '<td><input class="form-control" type="text" value="'.$row['SCSIGN'].'" id="keyscsign"></input></td>'
+    .               '</tr>'
+    .          '<tr align=center>'
+    .               '<td>Директория для BAT файлов</td>'
+    .               '<td><input class="form-control" type="text" value="'.$row['BAT'].'" id="keybat"></input></td>'
+    .               '</tr>'
     ; 
 }
 

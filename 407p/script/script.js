@@ -209,7 +209,7 @@ $(document).ready(function() {
         $.ajax({
             url: "inc/ajax.php",
             type: "POST",
-            data: "id=1&keysign="+$('#keysign').val()+"&keycrypt="+$('#keycrypt').val()+"&keyuncrypt="+$('#keyuncrypt').val(),
+            data: "id=1&keysign="+$('#keysign').val()+"&keycrypt="+$('#keycrypt').val()+"&keyuncrypt="+$('#keyuncrypt').val()+"&scsign="+$('#keyscsign').val()+"&bat="+$('#keybat').val(),
             success: function(){
                 $('p#info').text('Изменения сохренены!');
                 $('#dialog-message-info').dialog({

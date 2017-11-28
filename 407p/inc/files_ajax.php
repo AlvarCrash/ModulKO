@@ -99,9 +99,7 @@ if (isset($_POST['files_afrfm'])) {
 if (isset($_POST['files_zfrfm'])) {
     $i = 0;
     
-    //Монтируем диск
-    $commount = 'D:\PHP\407p\BAT\MountDisk.bat';
-    exec($commount);
+    
     
     //Принимаем массив элементов
     $checkboxx = $_POST['checkbox'];
@@ -114,7 +112,16 @@ if (isset($_POST['files_zfrfm'])) {
     $path_zfrfm = $row['IN_ZFRFM'];
     $path_rfrfm = $row['IN_RFRFM'];
     
+    //Получаем директории SCSIGN и BAT файлов
+    $sql = "SELECT * FROM SPR_KEYS WHERE ID = '1'";
+    $result = mysqli_query($db,$sql);
+    $row = mysqli_fetch_assoc($result);
+    $path_bat = $row['BAT'];
+    $path_scsign = $row['SCSIGN'];
     
+    //Монтируем диск
+    $commount = $path_bat.'MountDisk.bat';
+    exec($commount);
     
     //Копируем файлы в директорию расшифрованных файлов и расшифровываем их
     foreach ($checkbox as $checkboxid){
@@ -124,7 +131,7 @@ if (isset($_POST['files_zfrfm'])) {
         $comline = 'copy /Y '.$path_zfrfm.$row['NAME'].' '.$path_rfrfm;
         exec($comline);
         
-        $comuncrypt = 'D:\PHP\407p\SCSignEx\SCSignEx.exe -d -f'.$path_rfrfm.$row['NAME'];
+        $comuncrypt = $path_scsign.'SCSignEx.exe -d -f'.$path_rfrfm.$row['NAME'];
         exec($comuncrypt);    
         
         //Проверка на невыбранность файлов
@@ -157,7 +164,7 @@ if (isset($_POST['files_zfrfm'])) {
     mysqli_close($db);
     
     //Размонтируем диск
-    $commount = 'D:\PHP\407p\BAT\UnMountDisk.bat';
+    $commount = $path_bat.'UnMountDisk.bat';
     exec($commount);
     
     //Выводим результат
