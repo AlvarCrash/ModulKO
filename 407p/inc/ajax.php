@@ -53,14 +53,15 @@ if (isset($_POST['changepass'])) {
 }
 
 //Проверка на изменение настроек путей
-if (isset($_POST['inafrfm']) or isset($_POST['inzfrfm']) or isset($_POST['inrfrfm']) or isset($_POST['outfiles'])) {
+if (isset($_POST['inafrfm']) or isset($_POST['inzfrfm']) or isset($_POST['inrfrfm']) or isset($_POST['outfiles']) or isset($_POST['irfm'])) {
     $inafrfm = addslashes($_POST['inafrfm']);
     $inzfrfm = addslashes($_POST['inzfrfm']);
     $inrfrfm = addslashes($_POST['inrfrfm']);
     $outfiles = addslashes($_POST['outfiles']);
     $arjpath = addslashes($_POST['arj']);
+    $inrfm = addslashes($_POST['inrfm']);
     $id=$_POST['id'];
-    $sql = "UPDATE SPR_FILES SET IN_AFRFM = '$inafrfm', IN_ZFRFM = '$inzfrfm', IN_RFRFM = '$inrfrfm', OUT_PATH = '$outfiles', ARJ_PATH = '$arjpath' where ID = '$id'";
+    $sql = "UPDATE SPR_FILES SET IN_AFRFM = '$inafrfm', IN_ZFRFM = '$inzfrfm', IN_RFRFM = '$inrfrfm', IN_RFM = '$inrfm', OUT_PATH = '$outfiles', ARJ_PATH = '$arjpath' where ID = '$id'";
     
     mysqli_query($db, $sql);
 }

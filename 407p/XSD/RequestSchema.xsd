@@ -1,0 +1,1376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2014 (x64) (http://www.altova.com) by Abramov Ilya (OOO Orion) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="ДокументЗапросДополнительнойИнформации">
+		<xs:annotation>
+			<xs:documentation>Запрос дополнительной информации на нескольких клиентов</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="СлужИнфо" type="СлужИнфо">
+					<xs:annotation>
+						<xs:documentation>Служебная информация</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="СведенияКО" type="СведенияКО">
+					<xs:annotation>
+						<xs:documentation>Сведения о кредитной организации</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Клиенты" type="Клиенты">
+					<xs:annotation>
+						<xs:documentation>Сведения о клиентах</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="ЦЧ">
+		<xs:annotation>
+			<xs:documentation>ЦЧ – целое число, последовательность цифр (без лидирующих нулей)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(0|\-?[1-9][0-9]*)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ЦЧ_П">
+		<xs:annotation>
+			<xs:documentation>ЦЧ – целое число, последовательность цифр (без лидирующих нулей);П – предписанный показатель, показатель, тег которого должен обязательно присутствовать в электронном документе, в то время как значения показателя может и не быть.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(0|\-?[1-9][0-9]*)|"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ПЦЧ">
+		<xs:annotation>
+			<xs:documentation>ПЦЧ – поожительное целое число, последовательность цифр (без лидирующих нулей)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(0|[1-9][0-9]*)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ДЧ">
+		<xs:annotation>
+			<xs:documentation>ДЧ – дробное число, последовательность цифр (без лидирующих нулей), включающая десятичную точку (символом разделителем целой и дробной части чисел является десятичная точка «.»)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\-?(0?|[1-9][0-9]*)\.[0-9]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ДЧ_П">
+		<xs:annotation>
+			<xs:documentation>ДЧ – дробное число, последовательность цифр (без лидирующих нулей), включающая десятичную точку (символом разделителем целой и дробной части чисел является десятичная точка «.»);П – предписанный показатель, показатель, тег которого должен обязательно присутствовать в электронном документе, в то время как значения показателя может и не быть.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\-?(0?|[1-9][0-9]*)\.[0-9]+|"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Д">
+		<xs:annotation>
+			<xs:documentation>Д – дата в формате &lt;ДД/ММ/ГГГГ&gt;, где &lt;ДД&gt; – две цифры, соответствующие номеру дня в месяце, &lt;ММ&gt; – две цифры, соответствующие номеру месяца в году, &lt;ГГГГ&gt; – четыре цифры года</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/([1-9]\d{3})"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Д_П">
+		<xs:annotation>
+			<xs:documentation>Д – дата в формате &lt;ДД/ММ/ГГГГ&gt;, где &lt;ДД&gt; – две цифры, соответствующие номеру дня в месяце, &lt;ММ&gt; – две цифры, соответствующие номеру месяца в году, &lt;ГГГГ&gt; – четыре цифры года;П – предписанный показатель, показатель, тег которого должен обязательно присутствовать в электронном документе, в то время как значения показателя может и не быть.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/([1-9]\d{3})|"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="В5">
+		<xs:annotation>
+			<xs:documentation>В5 – время в формате &lt;ЧЧ:ММ&gt;</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([01][0-9]|2[0-3]):[0-5][0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="В5_П">
+		<xs:annotation>
+			<xs:documentation>В5 – время в формате &lt;ЧЧ:ММ&gt;;П – предписанный показатель, показатель, тег которого должен обязательно присутствовать в электронном документе, в то время как значения показателя может и не быть.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([01][0-9]|2[0-3]):[0-5][0-9]|"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Л">
+		<xs:annotation>
+			<xs:documentation>Л – логическое значение (1 – верно, 0 – не верно)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[01]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Л_П">
+		<xs:annotation>
+			<xs:documentation>Л – логическое значение (1 – верно, 0 – не верно);П – предписанный показатель, показатель, тег которого должен обязательно присутствовать в электронном документе, в то время как значения показателя может и не быть.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[01]|"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="К">
+		<xs:annotation>
+			<xs:documentation>K – код, последовательность содержащихся в соответствующих справочниках любых символов, без учета регистра, включая пробелы и знаки препинания;</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="К_П">
+		<xs:annotation>
+			<xs:documentation>K – код, последовательность содержащихся в соответствующих справочниках любых символов, без учета регистра, включая пробелы и знаки препинания;П – предписанный показатель, показатель, тег которого должен обязательно присутствовать в электронном документе, в то время как значения показателя может и не быть.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="N">
+		<xs:annotation>
+			<xs:documentation>N – число, последовательность цифр (без лидирующих нулей), может включать десятичную точку;</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(0|\-?[1-9][0-9]*)|\-?(0?|[1-9][0-9]*)\.[0-9]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="N_П">
+		<xs:annotation>
+			<xs:documentation>N – число, последовательность цифр (без лидирующих нулей), может включать десятичную точку;П – предписанный показатель, показатель, тег которого должен обязательно присутствовать в электронном документе, в то время как значения показателя может и не быть.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(0|\-?[1-9][0-9]*)|\-?(0?|[1-9][0-9]*)\.[0-9]+|"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Т">
+		<xs:annotation>
+			<xs:documentation>Т – текст (символьная строка), последовательность символов, в качестве которых используются буквы русского и латинского алфавитов, цифры, а также любые другие символы, за исключением символов «возврат каретки» и «перевод строки».Первый символ текста должен быть отличен от пробела, в составных показателях (например, адрес, ФИО) использование запятых допускается только в качестве разделителя.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[^\s\r\n][^\r\n]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Т_П">
+		<xs:annotation>
+			<xs:documentation>Т – текст (символьная строка), последовательность символов, в качестве которых используются буквы русского и латинского алфавитов, цифры, а также любые другие символы, за исключением символов «возврат каретки» и «перевод строки».Первый символ текста должен быть отличен от пробела, в составных показателях (например, адрес, ФИО) использование запятых допускается только в качестве разделителя.П – предписанный показатель, показатель, тег которого должен обязательно присутствовать в электронном документе, в то время как значения показателя может и не быть.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[^\s\r\n][^\r\n]*|"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ИндексТип">
+		<xs:annotation>
+			<xs:documentation>Почтовый индекс</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="Т_П">
+			<xs:pattern value="[^\s\r\n]{6}|"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IP">
+		<xs:annotation>
+			<xs:documentation>IP-адрес</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(([0-9a-fA-F]{4}:){7}[0-9a-fA-F]{4})"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MAC">
+		<xs:annotation>
+			<xs:documentation>MAC-адрес</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-Fa-f]{2}(:[0-9A-Fa-f]{2}){5}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ОКСМТип">
+		<xs:annotation>
+			<xs:documentation>Код страны по ОКСМ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="К">
+			<xs:pattern value="[0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ФИО">
+		<xs:annotation>
+			<xs:documentation>Фамилия, имя, отчество</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Фам">
+				<xs:annotation>
+					<xs:documentation>Фамилия</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Имя">
+				<xs:annotation>
+					<xs:documentation>Имя</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Отч">
+				<xs:annotation>
+					<xs:documentation>Отчество</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т_П">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ДокУдост">
+		<xs:annotation>
+			<xs:documentation>Сведения о документе, удостоверяющем личность</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидДокКод" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Код вида документа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="[0-9]{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидДокНаименование">
+				<xs:annotation>
+					<xs:documentation>Наименование вида документа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="СерияДок">
+				<xs:annotation>
+					<xs:documentation>Серия документа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т_П">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="НомДок">
+				<xs:annotation>
+					<xs:documentation>Номер документа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т_П">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="КемВыданДок">
+				<xs:annotation>
+					<xs:documentation>Кем выдан документ</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т_П">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ДатВыдачиДок" type="Д_П">
+				<xs:annotation>
+					<xs:documentation>Дата выдачи документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="КодПодр">
+				<xs:annotation>
+					<xs:documentation>Код подразделения</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т_П">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Адрес">
+		<xs:annotation>
+			<xs:documentation>Адрес</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="КодОКСМ" type="ОКСМТип">
+				<xs:annotation>
+					<xs:documentation>Код страны</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Индекс" type="ИндексТип">
+				<xs:annotation>
+					<xs:documentation>Почтовый индекс</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="КодОКАТО" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Код субъекта Российской Федерации по ОКАТО</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="[0-9]{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Регион" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Регион</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Пункт" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Населенный пункт</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Улица" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Улица</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Дом" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дом (владение)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Корп" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Корпус (строение)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Оф" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Офис (квартира)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="СлужИнфо">
+		<xs:annotation>
+			<xs:documentation>Служебная информация</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВерcФорм">
+				<xs:annotation>
+					<xs:documentation>Версия формата</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВерсПрог">
+				<xs:annotation>
+					<xs:documentation>Версия передающей программы</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ТипИнф">
+				<xs:annotation>
+					<xs:documentation>Тип информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:pattern value="ЗАПРФМ"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ИДЗапр">
+				<xs:annotation>
+					<xs:documentation>Идентификатор запроса Росфинмониторинга</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="НомЗапр">
+				<xs:annotation>
+					<xs:documentation>Регистрационный номер запроса Росфинмониторинга</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ДатаФормЗапр" type="Д">
+				<xs:annotation>
+					<xs:documentation>Дата формирования запроса в кредитную организацию</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Должность">
+				<xs:annotation>
+					<xs:documentation>Должность ответственного лица</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="128"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Подписант" type="ФИО">
+				<xs:annotation>
+					<xs:documentation>Ответственное лицо</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Прим" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Примечание</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЮрЛицо">
+		<xs:annotation>
+			<xs:documentation>Юридическое лицо</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ЮЛНаим" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование юридического лица (филиала)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ЮЛДопНаим" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительное наименование юридического лица (филиала)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ЮЛИНН">
+				<xs:annotation>
+					<xs:documentation>Идентификационный номер налогоплательщика (ИНН)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К_П">
+						<xs:pattern value="[0-9]{5}|[0-9]{10}|"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ЮЛОГРН" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Регистрационный номер (ОГРН)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т_П">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ЮЛАдрРег" type="Адрес" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Адрес места регистрации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФизЛицо">
+		<xs:annotation>
+			<xs:documentation>Физическое лицо</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ФЛФИО" type="ФИО" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Фамилия, имя, отчество</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ФЛИНН" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ИНН физического лица</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="[0-9]{12}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ИПОГРНИП" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Регистрационный номер (ОГРНИП)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="[0-9]{15}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ФЛДокУдост" type="ДокУдост" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Документ, удостоверяющий личность</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ФЛДатаРожд" type="Д" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата рождения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ФЛГражд" type="ОКСМТип" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Гражданство</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ФЛАдрРег" type="Адрес" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Адрес места регистрации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Клиент">
+		<xs:annotation>
+			<xs:documentation>Сведения о клиенте</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="НомерКлиент">
+				<xs:annotation>
+					<xs:documentation>Номер клиента</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="ПЦЧ">
+						<xs:maxLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ТипКлиент">
+				<xs:annotation>
+					<xs:documentation>Тип клиента</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="1|2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ПризнРез">
+				<xs:annotation>
+					<xs:documentation>Признак резидента (нерезидента) клиента</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="1|2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ДатаИсп" type="Д">
+				<xs:annotation>
+					<xs:documentation>Дата исполнения запроса по клиенту</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ДопИнфо" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительная информация о клиенте</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="ЮрЛицо" type="ЮрЛицо">
+					<xs:annotation>
+						<xs:documentation>Сведения о юридическом лице (филиале юридического лица)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ФизЛицо" type="ФизЛицо">
+					<xs:annotation>
+						<xs:documentation>Сведения о физическом лице</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="ВидЗапрИнфо" type="ВидЗапрИнфо">
+				<xs:annotation>
+					<xs:documentation>Вид запрашиваемой информации о клиенте</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Клиенты">
+		<xs:annotation>
+			<xs:documentation>Сведения о клиентах</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ЧислоКлиентов">
+				<xs:annotation>
+					<xs:documentation>Количество клиентов кредитной организации, в отношении которых сформирован запрос Росфинмониторинга</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="ПЦЧ">
+						<xs:maxLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="КлиентКО" type="Клиент" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Сведения о клиенте кредитной организации, в отношении которого сформирован запрос Росфинмониторинга</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="СведенияКО">
+		<xs:annotation>
+			<xs:documentation>Сведения о кредитной организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="НаимКО">
+				<xs:annotation>
+					<xs:documentation>Сокращенное наименование кредитной организации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="БИККО">
+				<xs:annotation>
+					<xs:documentation>БИК кредитной организации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="[0-9]{9}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="БанкСчетTип">
+		<xs:annotation>
+			<xs:documentation>Банковский счет</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="НомБанкСчет">
+				<xs:annotation>
+					<xs:documentation>Номер банковского счета</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="БанкКартаTип">
+		<xs:annotation>
+			<xs:documentation>Банковская карта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="НомБанкКарта">
+				<xs:annotation>
+					<xs:documentation>Номер банковской карты</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:maxLength value="19"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ПлатСистТип">
+		<xs:annotation>
+			<xs:documentation>Платежная система</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ПлатСистКод" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Код платежной системы</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:length value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ПлатСистНаим" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование платежной системы</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ИдентСредстваПлат" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор электронного средства платежа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="АдресMAC" type="MAC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>MAC-адрес сетевого оборудования плательщика</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="АдресIP" type="IP" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IP-адрес сетевого оборудования плательщика</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ВидЗапрИнфо">
+		<xs:annotation>
+			<xs:documentation>Вид запрашиваемой информации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ЭЛ01ЗапрКопДог" type="ЭЛ01ЗапрКопДог" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>01. Запрос заверенных копий гражданско-правовых договоров, сведений о гражданско-правовых договорах клиентов</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ02ЗапрВБК" type="ЭЛ02ЗапрВБК" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>02. Запрос заверенных копий паспортов сделок, ведомостей банковского контроля, справок о подтверждающих документах</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ03ЗапрПодп" type="ЭЛ03ЗапрПодп" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>03. Запрос заверенных копий карточек с образцами подписей и оттиска печати</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ04ЗапрВыписок" type="ЭЛ04ЗапрВыписок" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>04. Запрос выписок по банковским счетам и банковским картам</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ05ЗапрОперБезОткрСчета" type="ЭЛ05ЗапрОперБезОткрСчета" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>05. Запрос операций по переводу денежных средств, совершенных физическим лицом без открытия счета</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ06ЗапрОперЭлДенСредств" type="ЭЛ06ЗапрОперЭлДенСредств" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>06. Запрос операций по переводу электронных денежных средств</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ07ЗапрВалютнОперБезОткрСчета" type="ЭЛ07ЗапрВалютнОперБезОткрСчета" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>07. Запрос валютно-обменных операций, совершенных физическим лицом без открытия счета</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ08ЗапрЗаявлНаОткрСчета" type="ЭЛ08ЗапрЗаявлНаОткрСчета" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>08. Запрос копий заявлений на открытие (закрытие) счетов</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ09ЗапросДосьеКлиента" type="ЭЛ09ЗапросДосьеКлиента" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>09. Запрос копий анкет (досье) клиентов кредитной организации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ91ЗапрБенефиц" type="ЭЛ91ЗапрБенефиц" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>91. Запрос информации о бенефициаром владельце клиента</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ10ЗапрКопийПаспортов" type="ЭЛ10ЗапрКопийПаспортов" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>10. Запрос копий паспортов лиц, имеющих право на проведение финансовых операций по счетам (в случае управления счетом на основании доверенности – копии такой доверенности)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ЭЛ11ЗапрОперСВекселями" type="ЭЛ11ЗапрОперСВекселями" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>11. Запрос сведений об операциях клиента с векселями</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ01ЗапрКопДог">
+		<xs:annotation>
+			<xs:documentation>Запрос заверенных копий гражданско-правовых договоров; сведений о гражданско-правовых договорах клиентов</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="01"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ02ЗапрВБК">
+		<xs:annotation>
+			<xs:documentation>Запрос заверенных копий паспортов сделок, ведомостей банковского контроля, справок о подтверждающих документах</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="02"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ03ЗапрПодп">
+		<xs:annotation>
+			<xs:documentation>Запрос заверенных копий карточек с образцами подписей и оттиска печати</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="03"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ04ЗапрВыписок">
+		<xs:annotation>
+			<xs:documentation>Запрос выписок по банковским счетам и банковским картам</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="04"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ДатаН" type="Д" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Дата начала периода</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ДатаК" type="Д" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Дата окончания периода</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="КодСчета">
+				<xs:annotation>
+					<xs:documentation>Код запроса выписки по счетам клиента</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="[012]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="БСчет" type="БанкСчетTип" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Банковский счет</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="КодБКарта">
+				<xs:annotation>
+					<xs:documentation>Код запроса выписки по банковским картам клиента</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="[012]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="БКарта" type="БанкКартаTип" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Банковская карта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ05ЗапрОперБезОткрСчета">
+		<xs:annotation>
+			<xs:documentation>Запрос операций по переводу денежных средств, совершенных физическим лицом без открытия счета</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="05"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ДатаН" type="Д" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Дата начала периода</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ДатаК" type="Д" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Дата окончания периода</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ06ЗапрОперЭлДенСредств">
+		<xs:annotation>
+			<xs:documentation>Запрос операций по переводу электронных денежных средств</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="06"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ПлатСист" type="ПлатСистТип" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Платежная система</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ДатаН" type="Д" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Дата начала периода</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ДатаК" type="Д" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Дата окончания периода</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ07ЗапрВалютнОперБезОткрСчета">
+		<xs:annotation>
+			<xs:documentation>Запрос валютно-обменных операций, совершенных физическим лицом без открытия счета</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="07"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ДатаН" type="Д" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Дата начала периода</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ДатаК" type="Д" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Дата окончания периода</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ08ЗапрЗаявлНаОткрСчета">
+		<xs:annotation>
+			<xs:documentation>Запрос копий заявлений на открытие (закрытие) счетов</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="08"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ09ЗапросДосьеКлиента">
+		<xs:annotation>
+			<xs:documentation>Запрос копий анкет (досье) клиентов кредитной организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="09"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ91ЗапрБенефиц">
+		<xs:annotation>
+			<xs:documentation>Запрос информации о бенефициарном владельце клиента</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="91"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ10ЗапрКопийПаспортов">
+		<xs:annotation>
+			<xs:documentation>Запрос копий паспортов лиц, имеющих право на проведение финансовых операций по счетам (в случае управления счетом на основании доверенности – копии такой доверенности)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ЭЛ11ЗапрОперСВекселями">
+		<xs:annotation>
+			<xs:documentation>Запрос сведений об операциях клиента с векселями</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ВидИнфКод">
+				<xs:annotation>
+					<xs:documentation>Код вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="К">
+						<xs:pattern value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ВидИнфНаименование" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование вида запрашиваемой информации</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ДатаН" type="Д" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Дата начала периода</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ДатаК" type="Д" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Дата окончания периода</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="КомЗапр" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Т">
+						<xs:maxLength value="2000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

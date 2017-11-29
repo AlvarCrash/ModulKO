@@ -19,6 +19,7 @@ if (!$db) {
     <li><a href="#tabs-1">Архивные файлы ЭС РФМ</a></li>
     <li><a href="#tabs-2">Зашифрованные Файлы ЭС РФМ</a></li>
     <li><a href="#tabs-3">Расшифрованные Файлы ЭС РФМ</a></li>
+    <li><a href="#tabs-4">Файлы ЭС РФМ</a></li>
   </ul>
   <div id="tabs-1">
     <!-- Управление -->
@@ -118,7 +119,7 @@ if (!$db) {
     </table>  
   </div>
   <div id="tabs-3">
-    <button class="ui-button ui-widget ui-corner-all" id="checkbuttonr"><span class="ui-icon ui-icon-gear"></span>Обработать файлы</button>
+    <button class="ui-button ui-widget ui-corner-all" id="checkbuttonr"><span class="ui-icon ui-icon-gear"></span>Разархивировать файлы</button>
     <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" id="renewbuttonr"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span>Обновить</button>
     <br><br>
     <?PHP
@@ -159,11 +160,58 @@ if (!$db) {
             .   '<td>'.$row['DATE'].'</td>'    
             .   '</tr>';    
     }
-    mysqli_close($db);
+    //mysqli_close($db);
     //Закрываем таблицу
     ?>
     </table>
   </div>
+    <div id="tabs-4">
+    <button class="ui-button ui-widget ui-corner-all" id="checkbuttonrfm"><span class="ui-icon ui-icon-gear"></span>Логический контроль</button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" id="renewbuttonrfm"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span>Обновить</button>
+    <br><br>
+    <?PHP
+    //Выбираем архивные файлы ЭС РФМ
+    $sql = "SELECT * FROM FILES_IN_RFM WHERE NAME NOT LIKE '%SIGN' ORDER BY DATE DESC";
+    $result = mysqli_query($db,$sql);
+    //mysqli_close($db);
+    //Открываем таблицу
+    ?>  
+    <table class="table" id="rfiles">
+        <tr>
+            <td></td>
+            <td>ID</td>
+            <td>ID Расшифрованного файла</td>
+            <td>Файл</td>
+            <td>Статус</td>
+            <td>Дата принятия</td>
+        </tr>
+    <?PHP
+    while ($row = mysqli_fetch_assoc($result)){
+        switch ($row['STATUS']){
+            case 'Новый':
+                $color = 'blue';
+                break;
+            case 'Обработан':
+                $color = 'green';
+                break;
+            case 'Ошибка':
+                $color = 'red';
+                break;
+        }
+        echo '<tr>'
+            .   '<td><input type="checkbox" name="checkboxr" id="'.$row['ID'].'"></td>'
+            .   '<td>'.$row['ID'].'</td>'
+            .   '<td align = center>'.$row['ID_R'].'</td>'    
+            .   '<td style = "color: '.$color.'">'.$row['NAME'].'</td>'
+            .   '<td>'.$row['STATUS'].'</td>'
+            .   '<td>'.$row['DATE'].'</td>'    
+            .   '</tr>';    
+    }
+    mysqli_close($db);
+    //Закрываем таблицу
+    ?>
+    </table>
+    </div>  
 </div>
 <div id="dialog-files-message-info" title="Сообщение">
   <p id="info">

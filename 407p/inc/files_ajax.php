@@ -12,7 +12,7 @@ if (!$db) {
 if (isset($_POST['files_lfrfm'])) {
     //Получаем директорию для архивных файлов ЭМ РФМ
     $i = 0;
-    $sql = "SELECT * FROM SPR_FILES WHERE ID = '1'";
+    $sql = "SELECT * FROM SPR_FILES";
     $result = mysqli_query($db,$sql);
     $row = mysqli_fetch_assoc($result);
     $path_afrfm = $row['IN_AFRFM'];
@@ -44,7 +44,7 @@ if (isset($_POST['files_afrfm'])) {
     $checkbox = explode(",", $checkboxx);
     
     //Получаем директорию для архивных и зашифрованных файлов
-    $sql = "SELECT * FROM SPR_FILES WHERE ID = '1'";
+    $sql = "SELECT * FROM SPR_FILES";
     $result = mysqli_query($db,$sql);
     $row = mysqli_fetch_assoc($result);
     $path_afrfm = $row['IN_AFRFM'];
@@ -98,22 +98,20 @@ if (isset($_POST['files_afrfm'])) {
 //Расшифровка файлов
 if (isset($_POST['files_zfrfm'])) {
     $i = 0;
-    
-    
-    
+   
     //Принимаем массив элементов
     $checkboxx = $_POST['checkbox'];
     $checkbox = explode(",", $checkboxx);
     
     //Получаем директорию для архивных и зашифрованных файлов
-    $sql = "SELECT * FROM SPR_FILES WHERE ID = '1'";
+    $sql = "SELECT * FROM SPR_FILES";
     $result = mysqli_query($db,$sql);
     $row = mysqli_fetch_assoc($result);
     $path_zfrfm = $row['IN_ZFRFM'];
     $path_rfrfm = $row['IN_RFRFM'];
     
     //Получаем директории SCSIGN и BAT файлов
-    $sql = "SELECT * FROM SPR_KEYS WHERE ID = '1'";
+    $sql = "SELECT * FROM SPR_KEYS";
     $result = mysqli_query($db,$sql);
     $row = mysqli_fetch_assoc($result);
     $path_bat = $row['BAT'];
@@ -171,6 +169,106 @@ if (isset($_POST['files_zfrfm'])) {
     echo $i;
 }
 
+//Разархивирование расшифрованных файлов
+if (isset($_POST['files_rfm'])) {
+    $i = 0;
+    
+    //Принимаем массив элементов
+    $checkboxx = $_POST['checkbox'];
+    $checkbox = explode(",", $checkboxx);
+    
+    //Получаем директорию для расшифрованных и конечных файлов
+    $sql = "SELECT * FROM SPR_FILES";
+    $result = mysqli_query($db,$sql);
+    $row = mysqli_fetch_assoc($result);
+    $path_rfm = $row['IN_RFM'];
+    $path_rfrfm = $row['IN_RFRFM'];
+    
+    //Разархивируем файлы в конечную директорию
+    foreach ($checkbox as $checkboxid){
+        $sql = "SELECT * FROM FILES_IN_R WHERE ID = '$checkboxid'";
+        $result = mysqli_query($db,$sql);
+        $row = mysqli_fetch_assoc($result);
+        
+        //Собственно разархивация
+        $zip = new ZipArchive;
+        $res = $zip->open($path_rfrfm.$row['NAME']);
+        if ($res === TRUE) {
+          $zip->extractTo($path_rfm);
+          $zip->close();
+        }
+        
+        //Проверка на невыбранность файлов
+        if ($checkbox[0] <> '') {
+            $i++;
+        }
+        else {
+            $i=0;
+        }
+        
+        //Изменяем статус записи
+        $sql = "UPDATE FILES_IN_R SET STATUS = 'Разархивирован' WHERE ID = '$checkboxid'";
+        $result = mysqli_query($db,$sql);
+        
+        //Сканируем директорию зашифрованных файлов
+        $files_rfm = scandir($path_rfm);
+        unset($files_rfm[0],$files_rfm[1]);
+        
+        //Если файл не внесен в БД, то добавляем его
+        foreach ($files_rfm as $filename){
+            
+            $sql = "SELECT * FROM FILES_IN_RFM WHERE NAME = '$filename'";
+            $result = mysqli_query($db,$sql);
+            if ($result->num_rows == 0) {
+                $sql = "INSERT INTO FILES_IN_RFM (ID_R, NAME, STATUS) values ('$checkboxid', '$filename', 'Новый')";
+                mysqli_query($db, $sql);
+            }
+            
+        }
+    }
+    
+    //Закрываем соединение с БД       
+    mysqli_close($db);
+    
+    //Выводим результат
+    echo $i;
+}
+
+//логический контроль файлов
+if (isset($_POST['files_log'])) {
+    $i = 0;
+    
+    //Принимаем массив элементов
+    $checkboxx = $_POST['checkbox'];
+    $checkbox = explode(",", $checkboxx);
+    
+    //Получаем директорию для конечных файлов
+    $sql = "SELECT * FROM SPR_FILES";
+    $result = mysqli_query($db,$sql);
+    $row = mysqli_fetch_assoc($result);
+    $path_rfm = $row['IN_RFM'];
+    
+    //Проводим логический контроль для каждого файла
+    foreach ($checkbox as $checkboxid){
+        $sql = "SELECT * FROM FILES_IN_RFM WHERE ID = '$checkboxid'";
+        $result = mysqli_query($db,$sql);
+        $row = mysqli_fetch_assoc($result);
+        
+        $xml = new DOMDocument(); 
+        $xml->load(trim($path_rfm.$row['NAME']));
+        
+        //$test = new DOMDocument();
+        //$test->load('D:\PHP\407p\XSD\RequestSchema.xsd');
+        //print_r ($test);
+        $val = $xml->schemaValidate('D:\PHP\407p\XSD\RequestSchema.xsd');
+        //if (!$xml->schemaValidate('D:\PHP\407p\XSD\RequestSchema.xsd')) { 
+            echo "$val";
+        //} 
+        //else { 
+        //    echo "1"; 
+        //} 
+    }
+}
 
 
 

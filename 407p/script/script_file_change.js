@@ -107,5 +107,65 @@ $(document).ready(function() {
             }
         });
     });
+    
+    //Разархивирование расшифрованных ZIP файлов
+    $('#checkbuttonr').on('click', function(){
+        //Выбираем все нажатые checkbox
+        var checkbox = [];
+        var ii = 0;
+        $(':checkbox:checked').each(function(){
+            //alert(this.value);
+            checkbox[ii] = $(this).attr('id');
+            ii++;
+            $(this).prop("checked", false);
+        });
+        $.ajax({
+            url: "inc/files_ajax.php",
+            type: "POST",
+            data: "files_rfm=1&checkbox="+checkbox,
+            success: function($i){
+                $('p#info').text('Разархивировано'+' '+$i+' '+'файлов!');
+                $('#dialog-files-message-info').dialog({
+                    modal: true,
+                    buttons: {
+                        Ok: function() {
+                            $( this ).dialog('close');
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        });
+    });
+    
+    //Проводим логический контроль файлов
+    $("#checkbuttonrfm").on('click', function(){
+        //Выбираем все нажатые checkbox
+        var checkbox = [];
+        var ii = 0;
+        $(':checkbox:checked').each(function(){
+            //alert(this.value);
+            checkbox[ii] = $(this).attr('id');
+            ii++;
+            $(this).prop("checked", false);
+        });
+        $.ajax({
+            url: "inc/files_ajax.php",
+            type: "POST",
+            data: "files_log=1&checkbox="+checkbox,
+            success: function($i){
+                $('p#info').text('Прошли контроль'+' '+$i+' '+'файлов!');
+                $('#dialog-files-message-info').dialog({
+                    modal: true,
+                    buttons: {
+                        Ok: function() {
+                            $( this ).dialog('close');
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        });
+    });
 });
 

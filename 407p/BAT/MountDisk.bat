@@ -1,1 +1,1 @@
-subst a: C:\PROJECT\ModulKO\407p\KEY
+subst a: D:\PHP\407p\KEY
