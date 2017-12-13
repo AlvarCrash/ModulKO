@@ -8,6 +8,13 @@ if (!$db) {
         printf("Невозможно подключиться к базе данных. Код ошибки: %s\n", mysqli_connect_error());
         exit;
     }
+
+//Получаем БИК
+    $sql = "SELECT * FROM SPR_BANK";
+    $result = mysqli_query($db,$sql);
+    $row = mysqli_fetch_assoc($result);
+    $bik = $row['BIK'];
+
 //Загрузка новых архивных файлов ЭМ РФМ      
 if (isset($_POST['files_lfrfm'])) {
     //Получаем директорию для архивных файлов ЭМ РФМ
@@ -17,19 +24,24 @@ if (isset($_POST['files_lfrfm'])) {
     $row = mysqli_fetch_assoc($result);
     $path_afrfm = $row['IN_AFRFM'];
     
+    
     //Получаем список файлов в директории и убираем точки
     $files_afrfm = scandir($path_afrfm);
     unset($files_afrfm[0],$files_afrfm[1]);    
     
     //Если файл не внесен в БД, то добавляем его
     foreach ($files_afrfm as $filename){
-        $sql = "SELECT * FROM FILES_IN_ARH WHERE NAME = '$filename'";
-        $result = mysqli_query($db,$sql);
-        if ($result->num_rows == 0) {
-            $sql = "INSERT INTO FILES_IN_ARH (NAME, STATUS) values ('$filename', 'Новый')";
-            mysqli_query($db, $sql);
-            $i++;
+        //Проверка имени файла на соответствие
+        $pattern = '/RRFM_'.$bik.'_[0-9]{8}_[0-9]{3}.ARJ/';
+        if (preg_match($pattern, $filename)){
+            $sql = "SELECT * FROM FILES_IN_ARH WHERE NAME = '$filename'";
+            $result = mysqli_query($db,$sql);
+            if ($result->num_rows == 0) {
+                $sql = "INSERT INTO FILES_IN_ARH (NAME, STATUS) values ('$filename', 'Новый')";
+                mysqli_query($db, $sql);
+                $i++;
             }
+        } 
     }
     mysqli_close($db);
     echo $i;
@@ -228,7 +240,7 @@ if (isset($_POST['files_rfm'])) {
     }
     
     //Закрываем соединение с БД       
-    mysqli_close($db);
+    //mysqli_close($db);
     
     //Выводим результат
     echo $i;
@@ -237,7 +249,7 @@ if (isset($_POST['files_rfm'])) {
 //логический контроль файлов
 if (isset($_POST['files_log'])) {
     $i = 0;
-    
+    //$error = '';
     //Принимаем массив элементов
     $checkboxx = $_POST['checkbox'];
     $checkbox = explode(",", $checkboxx);
@@ -254,21 +266,30 @@ if (isset($_POST['files_log'])) {
         $result = mysqli_query($db,$sql);
         $row = mysqli_fetch_assoc($result);
         
-        $xml = new DOMDocument(); 
-        $xml->load(trim($path_rfm.$row['NAME']));
+        $file = $path_rfm.$row['NAME'];
+        $schema = 'D:\PHP\407p\XSD\RequestSchema.xsd';
+        $ab = new DOMDocument;
+        $ab->load($file);
+
+        if ($ab->Schemavalidate($schema)) {
+            //Обновляем статус файла в БД
+            $sql = "UPDATE FILES_IN_RFM SET STATUS = 'Проверен' WHERE ID = '$checkboxid'";
+            $result = mysqli_query($db,$sql);
+            $i++;
+        } else {
+            //Обновляем статус файла в БД при ошибке
+            $sql = "UPDATE FILES_IN_RFM SET STATUS = 'Ошибка синтаксиса в документе!' WHERE ID = '$checkboxid'";
+            $result = mysqli_query($db,$sql);
+        }
+
         
-        //$test = new DOMDocument();
-        //$test->load('D:\PHP\407p\XSD\RequestSchema.xsd');
-        //print_r ($test);
-        $val = $xml->schemaValidate('D:\PHP\407p\XSD\RequestSchema.xsd');
-        //if (!$xml->schemaValidate('D:\PHP\407p\XSD\RequestSchema.xsd')) { 
-            echo "$val";
-        //} 
-        //else { 
-        //    echo "1"; 
-        //} 
+        
     }
+    echo $i;
+    mysqli_close($db);
 }
 
+//Закрываем соединение с БД
+//mysqli_close($db);
 
 

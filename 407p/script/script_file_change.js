@@ -42,10 +42,8 @@ $(document).ready(function() {
         $(':checkbox:checked').each(function(){
             $(this).prop("checked", false);
         });
-        //location.reload();
-        $('#tabs').tabs({
-            active: 1
-        });
+        location.reload();
+        
     });
     
     //Обработка кнопки Обработать файлы
@@ -138,8 +136,14 @@ $(document).ready(function() {
         });
     });
     
+    //Кнопка обновить на вкладке разархивированные ЭС РФМ
+    $('#renewbuttonr').on('click', function(){
+        location.reload();
+    })
+    
+    
     //Проводим логический контроль файлов
-    $("#checkbuttonrfm").on('click', function(){
+    $('#checkbuttonrfm').on('click', function(){
         //Выбираем все нажатые checkbox
         var checkbox = [];
         var ii = 0;
@@ -154,7 +158,13 @@ $(document).ready(function() {
             type: "POST",
             data: "files_log=1&checkbox="+checkbox,
             success: function($i){
-                $('p#info').text('Прошли контроль'+' '+$i+' '+'файлов!');
+                //alert (ii+' '+$i);
+                if ($i != ii){
+                    $('p#info').text('Внимание! При обработке были ошибки!');
+                }
+                else {
+                    $('p#info').text('Прошли контроль'+' '+$i+' '+'файлов!');
+                }
                 $('#dialog-files-message-info').dialog({
                     modal: true,
                     buttons: {
@@ -167,5 +177,12 @@ $(document).ready(function() {
             }
         });
     });
+    
+    //Кнопка обновить на вкладке Файлы ЭС РФМ
+    $('#renewbutton1').on('click', function(){
+        location.reload();
+    })
 });
+
+
 

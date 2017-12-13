@@ -12,6 +12,25 @@ if (!$db) {
         exit;
     }
 ?>
+<!-- Остаемся на последней открытой вкладке -->
+<script>
+$(function() {
+    var index = 'key_tab';
+    var dataStore = window.sessionStorage;
+    try {
+        var oldIndex = dataStore.getItem(index);
+    } catch(e) {
+        var oldIndex = 0;
+    }
+    $('#tabs').tabs({
+        active : oldIndex,
+        activate : function( event, ui ){
+            var newIndex = ui.newTab.parent().children().index(ui.newTab);
+            dataStore.setItem( index, newIndex ) 
+        }
+    }); 
+}); (jQuery)
+</script>
 
 <h1>Файловый обмен</h1>
 <div id="tabs">
@@ -167,7 +186,7 @@ if (!$db) {
   </div>
     <div id="tabs-4">
     <button class="ui-button ui-widget ui-corner-all" id="checkbuttonrfm"><span class="ui-icon ui-icon-gear"></span>Логический контроль</button>
-    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" id="renewbuttonrfm"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span>Обновить</button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" id="renewbutton1"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span>Обновить</button>
     <br><br>
     <?PHP
     //Выбираем архивные файлы ЭС РФМ
@@ -191,10 +210,10 @@ if (!$db) {
             case 'Новый':
                 $color = 'blue';
                 break;
-            case 'Обработан':
+            case 'Проверен':
                 $color = 'green';
                 break;
-            case 'Ошибка':
+            case 'Ошибка синтаксиса в документе!':
                 $color = 'red';
                 break;
         }
