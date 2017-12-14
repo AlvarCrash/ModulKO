@@ -72,7 +72,7 @@ $(function() {
             case 'Обработан':
                 $color = 'green';
                 break;
-            case 'Ошибка':
+            default:
                 $color = 'red';
                 break;
         }

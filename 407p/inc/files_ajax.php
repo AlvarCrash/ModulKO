@@ -23,7 +23,7 @@ if (isset($_POST['files_lfrfm'])) {
     $result = mysqli_query($db,$sql);
     $row = mysqli_fetch_assoc($result);
     $path_afrfm = $row['IN_AFRFM'];
-    
+    $ID = $row['ID'];
     
     //Получаем список файлов в директории и убираем точки
     $files_afrfm = scandir($path_afrfm);
@@ -31,16 +31,37 @@ if (isset($_POST['files_lfrfm'])) {
     
     //Если файл не внесен в БД, то добавляем его
     foreach ($files_afrfm as $filename){
-        //Проверка имени файла на соответствие
-        $pattern = '/RRFM_'.$bik.'_[0-9]{8}_[0-9]{3}.ARJ/';
-        if (preg_match($pattern, $filename)){
-            $sql = "SELECT * FROM FILES_IN_ARH WHERE NAME = '$filename'";
-            $result = mysqli_query($db,$sql);
-            if ($result->num_rows == 0) {
-                $sql = "INSERT INTO FILES_IN_ARH (NAME, STATUS) values ('$filename', 'Новый')";
-                mysqli_query($db, $sql);
-                $i++;
-            }
+        //Формируем команду на сохранение файла в архиве
+        $comcopy = 'copy /Y '.$path_afrfm.$filename.' d:\php\407p\in\arh';
+
+        //Копируем
+        exec($comcopy);
+        
+        $sql = "SELECT * FROM FILES_IN_ARH WHERE NAME = '$filename'";
+        $result = mysqli_query($db,$sql);
+        if ($result->num_rows == 0) {
+            $sql = "INSERT INTO FILES_IN_ARH (NAME, STATUS) values ('$filename', 'Новый')";
+            mysqli_query($db, $sql);
+            $i++;
+            
+            
+            
+            
+        }
+        //Проверка на ошибку 0015
+        else {
+            $sql = "INSERT INTO FILES_ERRORS (ID_FILE, FILE_NAME, ERROR_CODE) values ('$ID', '$filename', '0015')";
+            mysqli_query($db, $sql);
+            $sql = "UPDATE FILES_IN_ARH SET STATUS = 'Ошибка 0015' WHERE NAME = '$filename'";
+            mysqli_query($db, $sql);
+        }
+        //Проверка на ошибку 0014
+        $pattern = '/[rR][rR][fF][mM]_'.$bik.'_[0-9]{8}_[0-9]{3}.[aA][rR][jJ]/';
+        if (!(preg_match($pattern, $filename))){
+            $sql = "INSERT INTO FILES_ERRORS (ID_FILE, FILE_NAME, ERROR_CODE) values ('$ID', '$filename', '0014')";
+            mysqli_query($db, $sql);
+            $sql = "UPDATE FILES_IN_ARH SET STATUS = 'Ошибка 0014' WHERE NAME = '$filename'";
+            mysqli_query($db, $sql);
         } 
     }
     mysqli_close($db);
@@ -69,12 +90,12 @@ if (isset($_POST['files_afrfm'])) {
         $result = mysqli_query($db,$sql);
         $row = mysqli_fetch_assoc($result);
         $name = $row['NAME'];
-        
+        $ID = $row['ID'];
         //Формируем команду на разархивацию ARJ X -Y А:\ТХТ.ARJ C:\ТХТ
         $comarj = $path_arj.'ARJ.EXE X -Y '.$path_afrfm.$name.' '.$path_zfrfm;
         
         //разархивируем
-        exec($comarj);
+        exec($comarj, $output, $response);
         
         //Проверка на невыбранность файлов
         if ($checkbox[0] <> '') {
@@ -88,25 +109,48 @@ if (isset($_POST['files_afrfm'])) {
         $sql = "UPDATE FILES_IN_ARH SET STATUS = 'Обработан' WHERE ID = '$checkboxid'";
         $result = mysqli_query($db,$sql);
         
+        //Проверка на ошибку 0005
+            if ($response){
+                $sql = "INSERT INTO FILES_ERRORS (ID_FILE, FILE_NAME, ERROR_CODE) values ('$ID', '$name', '0005')";
+                mysqli_query($db,$sql);
+                $sql = "UPDATE FILES_IN_ARH SET STATUS = 'Ошибка 0005' WHERE ID = '$checkboxid'";
+                mysqli_query($db,$sql);
+            }
+        
         //Сканируем директорию зашифрованных файлов
         $files_zfrfm = scandir($path_zfrfm);
         unset($files_zfrfm[0],$files_zfrfm[1]);
         
         //Если файл не внесен в БД, то добавляем его
         foreach ($files_zfrfm as $filename){
+            
             $sql = "SELECT * FROM FILES_IN_Z WHERE NAME = '$filename'";
             $result = mysqli_query($db,$sql);
             if ($result->num_rows == 0) {
                 $sql = "INSERT INTO FILES_IN_Z (ID_A, NAME, STATUS) values ('$checkboxid', '$filename', 'Новый')";
                 mysqli_query($db, $sql);
             }
+            
+            //Проверка на ошибку 0012
+            $pattern = '/.*.[zZ][iI][pP]/';
+            if (!(preg_match($pattern, $filename))){
+                $sql = "INSERT INTO FILES_ERRORS (ID_FILE, FILE_NAME, ERROR_CODE) values ('$ID', '$name', '0012')";
+                mysqli_query($db,$sql);
+                $sql = "UPDATE FILES_IN_ARH SET STATUS = 'Ошибка 0012' WHERE ID = '$checkboxid'";
+                mysqli_query($db,$sql);
+                $sql = "DELETE FROM FILES_IN_Z WHERE NAME = '$filename'";
+                mysqli_query($db,$sql);
+            }
         }
     }
+
     //Закрываем соединение с БД       
     mysqli_close($db);
+
     //Выводим результат
     echo ($i);
 }
+
 //Расшифровка файлов
 if (isset($_POST['files_zfrfm'])) {
     $i = 0;
