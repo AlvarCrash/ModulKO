@@ -76,8 +76,11 @@ $(function() {
                 $color = 'red';
                 break;
         }
+        //Проверка на обработанность файла - запретить повторную обработку
+        $ch = '';
+        if ($row['STATUS'] !== 'Новый') $ch = 'disabled';
         echo '<tr>'
-            .   '<td><input type="checkbox" name="checkboxa" id="'.$row['ID'].'"></td>'
+            .   '<td><input type="checkbox" '.$ch.' name="checkboxa" id="'.$row['ID'].'"></td>'
             .   '<td>'.$row['ID'].'</td>'
             .   '<td style = "color: '.$color.'">'.$row['NAME'].'</td>'
             .   '<td>'.$row['STATUS'].'</td>'

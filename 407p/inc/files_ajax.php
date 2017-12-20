@@ -31,11 +31,7 @@ if (isset($_POST['files_lfrfm'])) {
     
     //Если файл не внесен в БД, то добавляем его
     foreach ($files_afrfm as $filename){
-        //Формируем команду на сохранение файла в архиве
-        $comcopy = 'copy /Y '.$path_afrfm.$filename.' d:\php\407p\in\arh';
-
-        //Копируем
-        exec($comcopy);
+        
         
         $sql = "SELECT * FROM FILES_IN_ARH WHERE NAME = '$filename'";
         $result = mysqli_query($db,$sql);
@@ -54,6 +50,8 @@ if (isset($_POST['files_lfrfm'])) {
             mysqli_query($db, $sql);
             $sql = "UPDATE FILES_IN_ARH SET STATUS = 'Ошибка 0015' WHERE NAME = '$filename'";
             mysqli_query($db, $sql);
+            
+            
         }
         //Проверка на ошибку 0014
         $pattern = '/[rR][rR][fF][mM]_'.$bik.'_[0-9]{8}_[0-9]{3}.[aA][rR][jJ]/';
@@ -141,12 +139,26 @@ if (isset($_POST['files_afrfm'])) {
                 $sql = "DELETE FROM FILES_IN_Z WHERE NAME = '$filename'";
                 mysqli_query($db,$sql);
             }
+            
+            
         }
+        //Формируем команду на сохранение файла в архиве
+        $commove = 'move /Y '.$path_afrfm.$name.' d:\php\407p\in\arh';
+
+        //Копируем
+        exec($commove);
+        
+        //Формируем команду на удаление файла
+        //$comdelete = 'delete /Y '.$path_afrfm.$name;
+
+        //Удаляем
+        //exec($comdelete);
     }
 
     //Закрываем соединение с БД       
     mysqli_close($db);
-
+    
+    
     //Выводим результат
     echo ($i);
 }
