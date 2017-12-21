@@ -39,20 +39,16 @@ if (isset($_POST['files_lfrfm'])) {
             $sql = "INSERT INTO FILES_IN_ARH (NAME, STATUS) values ('$filename', 'Новый')";
             mysqli_query($db, $sql);
             $i++;
-            
-            
-            
-            
         }
+        
         //Проверка на ошибку 0015
         else {
             $sql = "INSERT INTO FILES_ERRORS (ID_FILE, FILE_NAME, ERROR_CODE) values ('$ID', '$filename', '0015')";
             mysqli_query($db, $sql);
             $sql = "UPDATE FILES_IN_ARH SET STATUS = 'Ошибка 0015' WHERE NAME = '$filename'";
             mysqli_query($db, $sql);
-            
-            
         }
+        
         //Проверка на ошибку 0014
         $pattern = '/[rR][rR][fF][mM]_'.$bik.'_[0-9]{8}_[0-9]{3}.[aA][rR][jJ]/';
         if (!(preg_match($pattern, $filename))){
@@ -60,7 +56,29 @@ if (isset($_POST['files_lfrfm'])) {
             mysqli_query($db, $sql);
             $sql = "UPDATE FILES_IN_ARH SET STATUS = 'Ошибка 0014' WHERE NAME = '$filename'";
             mysqli_query($db, $sql);
-        } 
+        }
+        
+        //Проверка на ошибку 0002
+        //Монтируем диск
+        $commount = $path_bat.'MountDisk.bat';
+        exec($commount);
+        
+        //Формируем команду для проверки КА
+        $comka = $path_scsign.'SCSignEx.exe -c -f'.$path_afrfm.$row['NAME'];
+        
+        //Выполняем проверку на наличие КА
+        exec($comka, $output, $response);
+        
+        if ($response){
+                $sql = "INSERT INTO FILES_ERRORS (ID_FILE, FILE_NAME, ERROR_CODE) values ('$ID', '$filename', '0002')";
+                mysqli_query($db,$sql);
+                $sql = "UPDATE FILES_IN_ARH SET STATUS = 'Ошибка 0002' WHERE ID = '$checkboxid'";
+                mysqli_query($db,$sql);
+            }
+        
+        //Размонтируем диск
+        $commount = $path_bat.'UnMountDisk.bat';
+        exec($commount);
     }
     mysqli_close($db);
     echo $i;
@@ -138,6 +156,12 @@ if (isset($_POST['files_afrfm'])) {
                 mysqli_query($db,$sql);
                 $sql = "DELETE FROM FILES_IN_Z WHERE NAME = '$filename'";
                 mysqli_query($db,$sql);
+                
+                //Формируем строку для удаления неправильного файл
+                $comdelete = 'del /Q '.$path_zfrfm.$filename;
+                
+                //Выполняем удаление
+                exec($comdelete);
             }
             
             
@@ -147,12 +171,7 @@ if (isset($_POST['files_afrfm'])) {
 
         //Копируем
         exec($commove);
-        
-        //Формируем команду на удаление файла
-        //$comdelete = 'delete /Y '.$path_afrfm.$name;
 
-        //Удаляем
-        //exec($comdelete);
     }
 
     //Закрываем соединение с БД       
