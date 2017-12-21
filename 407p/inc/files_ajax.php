@@ -147,7 +147,7 @@ if (isset($_POST['files_afrfm'])) {
                 mysqli_query($db, $sql);
             }
             
-            //Проверка на ошибку 0012
+            //Проверка на ошибку 0012 тут посмотреть будет ли ошибка, если в каталоге есть неправильный файл p.txt
             $pattern = '/.*.[zZ][iI][pP]/';
             if (!(preg_match($pattern, $filename))){
                 $sql = "INSERT INTO FILES_ERRORS (ID_FILE, FILE_NAME, ERROR_CODE) values ('$ID', '$name', '0012')";
